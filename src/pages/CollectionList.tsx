@@ -23,7 +23,7 @@ function CollectionList() {
             </Thead>
             <Tbody>
             {collections.collections.map(({ id }: StacCollection) => (
-              <Tr>
+              <Tr key={id}>
                 <Td>{id}</Td>
                 <Td fontSize="sm">
                   <Link to={`/collections/${id}`}>Edit</Link>
