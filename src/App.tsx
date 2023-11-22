@@ -14,6 +14,7 @@ import { MainNavigation } from "./components";
 import Home from "./pages/Home";
 import CollectionList from "./pages/CollectionList";
 import ItemList from "./pages/ItemList";
+import ItemForm from "./pages/ItemForm";
 
 export const App = () => (
   <ChakraProvider theme={theme}>
@@ -38,6 +39,7 @@ export const App = () => (
                 <Route path="/" element={<Home />} />
                 <Route path="/collections/" element={<CollectionList />} />
                 <Route path="/items/" element={<ItemList />} />
+                <Route path="/collections/:collectionId/items/:itemId/" element={<ItemForm />} />
               </Routes>
             </Box>
           </Box>

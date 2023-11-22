@@ -2078,9 +2078,9 @@
   integrity sha512-+OJ9konv95ClSTOJCmMZqpd5+YGsB2S+x6w3E1oaM8UuR5j8nTNHYSz8c9BEPGDOCMQYIEEGlVPj/VY64iTbGw==
 
 "@developmentseed/stac-react@^0.1.0-alpha.7":
-  version "0.1.0-alpha.7"
-  resolved "https://registry.yarnpkg.com/@developmentseed/stac-react/-/stac-react-0.1.0-alpha.7.tgz#f5009c09280fdd1fdc5eb3b45a0b41c743d24f2f"
-  integrity sha512-Pmx6SAulufiD9Qd20tSKjiRXqLqLkfJx3bSQZSYXYfdYI3lFl7OeeMgjEZI8MZJu+f+8l7etDFY6VkZW449fEA==
+  version "0.1.0-alpha.8.1"
+  resolved "https://registry.yarnpkg.com/@developmentseed/stac-react/-/stac-react-0.1.0-alpha.8.1.tgz#a36ef979f4e46b126bfdc82f9cd0f2ee11729aca"
+  integrity sha512-f0h06CNbu/G1vZGrefdciCp0MpUFpKncBzBNWcKUSbp3wGTU/v2PD4BEj/2uOrm2hGGE4NC78v+zJ/6SmV/h6A==
 
 "@emotion/babel-plugin@^11.11.0":
   version "11.11.0"
