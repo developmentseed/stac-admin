@@ -10,9 +10,10 @@ import {
 } from "@chakra-ui/react"
 import { StacApiProvider } from "@developmentseed/stac-react";
 import theme from "./theme"
+import { MainNavigation } from "./components";
 import Home from "./pages/Home";
 import CollectionList from "./pages/CollectionList";
-import { MainNavigation } from "./components";
+import ItemList from "./pages/ItemList";
 
 export const App = () => (
   <ChakraProvider theme={theme}>
@@ -36,6 +37,7 @@ export const App = () => (
               <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/collections/" element={<CollectionList />} />
+                <Route path="/items/" element={<ItemList />} />
               </Routes>
             </Box>
           </Box>
