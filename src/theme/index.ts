@@ -25,7 +25,7 @@ export default extendTheme({
       },
       h2: {
         fontWeight: 'bold',
-        fontSize: '3xl',
+        fontSize: '2xl',
         my: '4'
       },
       p: {
