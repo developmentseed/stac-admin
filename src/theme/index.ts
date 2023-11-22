@@ -7,6 +7,9 @@ export default extendTheme({
       body: {
         bgColor: 'gray.50'
       },
+      'main *:first-child': {
+        mt: 0
+      },
       a: {
         color: 'blue.800',
         textDecoration: 'underline',
@@ -14,6 +17,16 @@ export default extendTheme({
           bg: 'yellow.100',
           textDecoration: 'none',
         }
+      },
+      h1: {
+        fontWeight: 'bold',
+        fontSize: '4xl',
+        my: '4'
+      },
+      h2: {
+        fontWeight: 'bold',
+        fontSize: '3xl',
+        my: '4'
       },
       p: {
         my: '4'
