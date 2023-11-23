@@ -7,11 +7,13 @@ type NavItemProps = React.PropsWithChildren<{
 
 function NavItem({ to, children }: NavItemProps) {
   return (
-    <ListItem px="4" py="1" _hover={{ bgColor: 'gray.100' }}>
+    <ListItem>
       <Link
         as={RouterLink}
         to={to}
-        display="block"
+        borderRadius="5"
+        px="2"
+        py="1"
         _hover={{ bgColor: 'gray.100' }}
       >
         {children}
@@ -22,15 +24,9 @@ function NavItem({ to, children }: NavItemProps) {
 
 function MainNavigation() {
   return (
-    <Box
-      as="nav"
-      border="1px solid"
-      borderColor="gray.300"
-      borderRadius="5"
-      py="4"
-      alignSelf="start"
-    >
-      <List my="0">
+    <Box as="nav" aria-label="Main">
+      <List my="0" display="flex">
+        <NavItem to="/">Home</NavItem>
         <NavItem to="/collections/">Collections</NavItem>
         <NavItem to="/items/">Items</NavItem>
       </List>

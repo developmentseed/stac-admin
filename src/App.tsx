@@ -26,24 +26,21 @@ export const App = () => (
             as="header"
             borderBottom="1px dashed"
             borderColor="gray.300"
-            fontWeight="bold"
             mb="4"
             pb="4"
-            textTransform="uppercase"
+            display="flex"
           >
-            STAC Admin
-          </Box>
-          <Box display="grid" gridTemplateColumns="1fr 2fr" gap="8">
+            <Box flex="1" fontWeight="bold" textTransform="uppercase">STAC Admin</Box>
             <MainNavigation />
-            <Box as="main">
-              <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/collections/" element={<CollectionList />} />
-                <Route path="/collections/:collectionId/" element={<CollectionForm />} />
-                <Route path="/items/" element={<ItemList />} />
-                <Route path="/collections/:collectionId/items/:itemId/" element={<ItemForm />} />
-              </Routes>
-            </Box>
+          </Box>
+          <Box as="main">
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/collections/" element={<CollectionList />} />
+              <Route path="/collections/:collectionId/" element={<CollectionForm />} />
+              <Route path="/items/" element={<ItemList />} />
+              <Route path="/collections/:collectionId/items/:itemId/" element={<ItemForm />} />
+            </Routes>
           </Box>
         </Container>
       </Router>
