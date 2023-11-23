@@ -13,6 +13,7 @@ import theme from "./theme"
 import { MainNavigation } from "./components";
 import Home from "./pages/Home";
 import CollectionList from "./pages/CollectionList";
+import CollectionForm from "./pages/CollectionForm";
 import ItemList from "./pages/ItemList";
 import ItemForm from "./pages/ItemForm";
 
@@ -38,6 +39,7 @@ export const App = () => (
               <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/collections/" element={<CollectionList />} />
+                <Route path="/collections/:collectionId/" element={<CollectionForm />} />
                 <Route path="/items/" element={<ItemList />} />
                 <Route path="/collections/:collectionId/items/:itemId/" element={<ItemForm />} />
               </Routes>
