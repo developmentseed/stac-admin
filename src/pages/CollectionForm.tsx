@@ -6,6 +6,7 @@ import { useCollection } from "@developmentseed/stac-react";
 import { HeadingLead, Loading } from "../components";
 import { TextInput, TextAreaInput } from "../components/forms";
 import useUpdateCollection from "./useUpdateCollection";
+import { usePageTitle } from "../hooks";
 
 type FormValues = {
   title: string;
@@ -15,6 +16,7 @@ type FormValues = {
 
 function CollectionForm() {
   const { collectionId } = useParams();
+  usePageTitle(`Edit collection ${collectionId}`);
   const { collection, state, reload } = useCollection(collectionId!);
   const { update, state: updateState } = useUpdateCollection();
 

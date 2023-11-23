@@ -3,8 +3,10 @@ import { TableContainer, Table, Text, Thead, Tr, Th, Td, Tbody } from '@chakra-u
 import { useCollections } from '@developmentseed/stac-react';
 import type { StacCollection } from 'stac-ts';
 import { Loading } from '../components';
+import { usePageTitle } from "../hooks";
 
 function CollectionList() {
+  usePageTitle('Collections');
   const { collections, state } = useCollections();
 
   return (

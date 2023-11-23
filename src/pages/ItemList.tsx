@@ -5,8 +5,10 @@ import { useStacSearch } from "@developmentseed/stac-react";
 
 import { Loading } from "../components";
 import { StacItem } from "stac-ts";
+import { usePageTitle } from "../hooks";
 
 function ItemList() {
+  usePageTitle('Items');
   const { results, state, submit, nextPage, previousPage } = useStacSearch();
 
   useEffect(submit, [submit]);
