@@ -20,7 +20,7 @@ import NotFound from "./pages/NotFound";
 
 export const App = () => (
   <ChakraProvider theme={theme}>
-    <StacApiProvider apiUrl="http://localhost:8081">
+    <StacApiProvider apiUrl={process.env.REACT_APP_STAC_API!}>
       <Router>
         <Container mx="auto" p="5" bgColor="white" boxShadow="md">
           <Box

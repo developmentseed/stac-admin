@@ -18,7 +18,7 @@ type FormValues = {
 function ItemForm () {
   const { collectionId, itemId } = useParams();
   usePageTitle(`Edit item ${itemId}`);
-  const itemResource = `http://localhost:8081/collections/${collectionId}/items/${itemId}`
+  const itemResource = `${process.env.REACT_APP_STAC_API}/collections/${collectionId}/items/${itemId}`
   const { item, state, reload } = useItem(itemResource);
   const { update, state: updateState } = useUpdateItem(itemResource);
 

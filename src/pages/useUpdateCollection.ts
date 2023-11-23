@@ -25,7 +25,7 @@ function useUpdateCollection(): UseUpdateCollectionType {
   const update = useCallback((data: StacCollection) => {
     setState("LOADING");
 
-    return fetch(`http://localhost:8081/collections/`, {
+    return fetch(`${process.env.REACT_APP_STAC_API}/collections/`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data)
