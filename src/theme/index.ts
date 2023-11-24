@@ -34,6 +34,9 @@ export default extendTheme({
       ul: {
         my: '4'
       },
+      legend: {
+        fontWeight: '500'
+      }
     },
   },
   components: {

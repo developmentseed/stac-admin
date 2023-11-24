@@ -6,16 +6,28 @@ import { useStacSearch } from "@developmentseed/stac-react";
 import { Loading } from "../components";
 import { StacItem } from "stac-ts";
 import { usePageTitle } from "../hooks";
+import ItemListFilter from "./ItemListFilter";
 
 function ItemList() {
   usePageTitle('Items');
-  const { results, state, submit, nextPage, previousPage } = useStacSearch();
+  const {
+    results,
+    state,
+    submit,
+    nextPage,
+    previousPage,
+    ...searchState
+  } = useStacSearch();
 
-  useEffect(submit, [submit]);
+  useEffect(() => {
+    if (results) return;
+    submit();
+  }, [submit]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <>
       <Heading as="h1">Items</Heading>
+      <ItemListFilter submit={submit} {...searchState} />
       { !results || state === 'LOADING' ? (
         <Loading>Loading items...</Loading>
       ) : (
@@ -25,6 +37,7 @@ function ItemList() {
               <Thead>
                 <Tr>
                   <Th>ID</Th>
+                  <Th>Collection</Th>
                   <Th aria-label="Actions"></Th>
                 </Tr>
               </Thead>
@@ -32,6 +45,7 @@ function ItemList() {
               {results.features.map(({ id, collection }: StacItem) => (
                 <Tr key={id}>
                   <Td>{id}</Td>
+                  <Td>{collection}</Td>
                   <Td fontSize="sm">
                     <Link to={`/collections/${collection}/items/${id}`}>Edit</Link>
                   </Td>
