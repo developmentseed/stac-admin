@@ -65,6 +65,16 @@ export const SelectInput = React.forwardRef<HTMLInputElement, SelectProps>(
   )
 );
 
+
+export const ArrayInput = React.forwardRef<HTMLInputElement, InputProps>(
+  ({onChange, ...props}: InputProps, ref) => {
+    const handleChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
+      onChange(event.target.value.split(',').map(val => val.trim()))
+    }
+    return <Field {...props} FieldComponent={Input} onChange={handleChange} ref={ref} />;
+  }
+);
+
 type DateRangeInputProps = InputProps & {
   dateRangeFrom?: string,
   setDateRangeFrom: (date: string) => void,
