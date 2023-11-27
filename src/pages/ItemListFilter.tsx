@@ -6,10 +6,12 @@ import Map, { type MapRef, Source, Layer } from 'react-map-gl/maplibre';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { StacCollection } from "stac-ts";
 
-import { DateRangeInput, SelectInput } from "../components/forms";
+import { DateRangeInput, SelectInput, TextInput } from "../components/forms";
 import DrawBboxControl from "./DrawBboxControl";
 
 type ItemListFilterProps = {
+  ids?: string[];
+  setIds: (ids: string[]) => void
   bbox?: number[];
   setBbox: (bbox: number[]) => void;
   collections?: StacCollection[];
@@ -22,6 +24,8 @@ type ItemListFilterProps = {
 }
 
 function ItemListFilter({
+  ids,
+  setIds,
   bbox,
   setBbox,
   setCollections,
@@ -38,6 +42,10 @@ function ItemListFilter({
 
   const handleSelectCollection: React.ChangeEventHandler<HTMLSelectElement> = (event) => {
     setCollections([ event.target.value ]);
+  }
+
+  const handleItemIdChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
+    setIds(event.target.value.split(',').map(val => val.trim()))
   }
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
@@ -75,6 +83,7 @@ function ItemListFilter({
       </Box>
       <Box as="form" onSubmit={handleSubmit} {...disclosureProps} display="grid" gap="4" gridTemplateColumns="1fr 1fr">
         <Box>
+          <TextInput label="Item IDs" onChange={handleItemIdChange} helper="Enter a comma-separated list of item IDs you want to match." />
           <SelectInput label="Collection" onChange={handleSelectCollection}>
             <option value=""></option>
             { collections?.collections.map(({ id }: StacCollection) => (

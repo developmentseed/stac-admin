@@ -6,6 +6,7 @@ import {
   FormControl,
   FormLabel,
   FormErrorMessage,
+  FormHelperText,
   Input,
   Textarea,
   Select,
@@ -19,6 +20,7 @@ type InputProps = {
   error?: {
     message: string;
   };
+  helper?: string;
   [key: string]: any;  // eslint-disable-line @typescript-eslint/no-explicit-any
 }
 
@@ -27,10 +29,13 @@ type FieldProps = InputProps & {
 }
 
 const Field = React.forwardRef<HTMLInputElement, FieldProps>(
-  ({ label, error, FieldComponent, children, ...fieldProps }: FieldProps, ref) => (
+  ({ label, error, helper, FieldComponent, children, ...fieldProps }: FieldProps, ref) => (
     <FormControl isInvalid={!!error} my={FIELD_MARGIN}>
       <FormLabel>{label}</FormLabel>
       <FieldComponent {...fieldProps} ref={ref}>{ children }</FieldComponent>
+      { !!helper && !error && (
+        <FormHelperText>{ helper }</FormHelperText>
+      ) }
       { !!error && (
         <FormErrorMessage>{ error.message }</FormErrorMessage>
       ) }
