@@ -6,7 +6,7 @@ import Map, { type MapRef, Source, Layer } from 'react-map-gl/maplibre';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { StacCollection } from "stac-ts";
 
-import { ArrayInput, DateRangeInput, SelectInput, TextInput } from "../../components/forms";
+import { ArrayInput, DateRangeInput, SelectInput } from "../../components/forms";
 import DrawBboxControl from "./DrawBboxControl";
 
 type ItemListFilterProps = {
