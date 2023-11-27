@@ -2,10 +2,10 @@ import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Flex, Heading, TableContainer, Table, Thead, Tr, Th, Td, Tbody, Button } from "@chakra-ui/react";
 import { useStacSearch } from "@developmentseed/stac-react";
-
-import { Loading } from "../components";
 import { StacItem } from "stac-ts";
-import { usePageTitle } from "../hooks";
+
+import { Loading } from "../../components";
+import { usePageTitle } from "../../hooks";
 import ItemListFilter from "./ItemListFilter";
 
 function ItemList() {
