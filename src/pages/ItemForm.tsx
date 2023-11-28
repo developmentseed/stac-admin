@@ -1,10 +1,10 @@
 import { useParams } from "react-router-dom";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { Box, Heading, Button, Text } from "@chakra-ui/react";
 import { useItem } from "@developmentseed/stac-react";
 import { HeadingLead, Loading } from "../components";
 import useUpdateItem from "./useUpdateItem";
-import { TextInput, TextAreaInput } from "../components/forms";
+import { TextInput, TextAreaInput, NumberInput, ArrayInput } from "../components/forms";
 import { usePageTitle } from "../hooks";
 
 type FormValues = {
@@ -12,6 +12,11 @@ type FormValues = {
     title: string;
     description: string;
     license: string;
+    platform: string;
+    constellation: string;
+    mission: string;
+    gsd: number;
+    instrument: string[];
   }
 }
 
@@ -22,7 +27,7 @@ function ItemForm () {
   const { item, state, reload } = useItem(itemResource);
   const { update, state: updateState } = useUpdateItem(itemResource);
 
-  const { register, handleSubmit, formState: { errors } } = useForm<FormValues>({ values: item });
+  const { control, register, handleSubmit, formState: { errors } } = useForm<FormValues>({ values: item });
   const onSubmit = (data: any) => {
     update(data).then(reload);
   };
@@ -52,6 +57,40 @@ function ItemForm () {
           label="License"
           error={errors.properties?.license}
           {...register("properties.license")}
+        />
+
+        <Text as="h2">Instruments</Text>
+        <TextInput
+          label="Platform"
+          error={errors.properties?.platform}
+          {...register("properties.platform")}
+        />
+        <Controller
+          name="properties.instrument"
+          render={({ field }) => (
+            <ArrayInput
+              label="Instrument"
+              error={errors.properties?.instrument}
+              helper="Enter a comma-separated list of sensors used in the creation of the data."
+              {...field}
+            />
+          )}
+          control={control}
+        />
+        <TextInput
+          label="Constellation"
+          error={errors.properties?.constellation}
+          {...register("properties.constellation")}
+        />
+        <TextInput
+          label="Mission"
+          error={errors.properties?.mission}
+          {...register("properties.mission")}
+        />
+        <NumberInput
+          label="Ground Sample Distance"
+          error={errors.properties?.gsd}
+          {...register("properties.gsd", { min: 0 })}
         />
 
         <Box mt="4">
