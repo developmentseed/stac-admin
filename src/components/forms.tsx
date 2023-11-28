@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { MdDelete } from "react-icons/md";
 import {
   Box,
@@ -17,6 +17,7 @@ const FIELD_MARGIN = "4";
 
 type InputProps = {
   label: string;
+  value?: any;
   error?: {
     message: string;
   };
@@ -65,13 +66,18 @@ export const SelectInput = React.forwardRef<HTMLInputElement, SelectProps>(
   )
 );
 
-
 export const ArrayInput = React.forwardRef<HTMLInputElement, InputProps>(
-  ({onChange, ...props}: InputProps, ref) => {
+  ({onChange, value, ...props}: InputProps, ref) => {
+    const [ val, setVal ] = useState(value?.join(',') || '');
+
+    useEffect(() => setVal(value?.join(',') || ''), [value])
+
     const handleChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
+      setVal(event.target.value);
       onChange(event.target.value.split(',').map(val => val.trim()))
     }
-    return <Field {...props} FieldComponent={Input} onChange={handleChange} ref={ref} />;
+
+    return <Field {...props} FieldComponent={Input} value={val} onChange={handleChange} ref={ref} />;
   }
 );
 
