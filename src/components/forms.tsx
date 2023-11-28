@@ -10,6 +10,8 @@ import {
   Input,
   Textarea,
   Select,
+  NumberInput as Number,
+  NumberInputField,
   IconButton
 } from "@chakra-ui/react";
 
@@ -53,6 +55,20 @@ export const TextInput = React.forwardRef<HTMLInputElement, InputProps>(
 export const TextAreaInput = React.forwardRef<HTMLInputElement, InputProps>(
   (props: InputProps, ref) => (
     <Field {...props} FieldComponent={Textarea} ref={ref} />
+  )
+);
+
+const NumberField  = React.forwardRef<HTMLInputElement, InputProps>(
+  ({ min, max, ...props }: InputProps, ref) => (
+    <Number min={min} max={max}>
+      <NumberInputField {...props} ref={ref} />
+    </Number>
+  )
+);
+
+export const NumberInput = React.forwardRef<HTMLInputElement, InputProps>(
+  (props: InputProps, ref) => (
+    <Field {...props} FieldComponent={NumberField} ref={ref} />
   )
 );
 
