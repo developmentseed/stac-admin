@@ -13,6 +13,8 @@ import {
   NumberInput as Number,
   NumberInputField,
   IconButton,
+  CheckboxGroup,
+  Checkbox
 } from "@chakra-ui/react";
 
 const FIELD_MARGIN = "4";
@@ -148,3 +150,23 @@ export function DateRangeInput({
     </FormControl>
   )
 }
+
+type CheckboxFieldProps = InputProps & {
+  options: { value: string, label: string }[];
+}
+
+export const CheckboxField = React.forwardRef<HTMLInputElement, CheckboxFieldProps>(
+  ({ name, options, value, onChange }: CheckboxFieldProps, ref) => {
+    const handleChange = (v: any) => {
+      onChange(v)
+    }
+
+    return (
+      <CheckboxGroup onChange={handleChange} value={value}>
+        {options.map(({ value, label }) => (
+          <Checkbox key={value} name={name} value={value} mb="2" mr="2">{label}</Checkbox>
+        ))}
+      </CheckboxGroup>
+    )
+  }
+)
