@@ -1,17 +1,21 @@
 import { useParams } from "react-router-dom";
-import { Controller, useForm } from "react-hook-form";
-import { Box, Heading, Button, Text } from "@chakra-ui/react";
+import { Controller, useFieldArray, useForm } from "react-hook-form";
+import { Box, Heading, Button, Text, Table, Thead, Tr, Th, Tbody, Td, Input, IconButton } from "@chakra-ui/react";
 import { useItem } from "@developmentseed/stac-react";
+import { MdAdd, MdDelete } from "react-icons/md";
+import { ProviderFields } from "stac-ts";
+
 import { HeadingLead, Loading } from "../components";
 import useUpdateItem from "./useUpdateItem";
-import { TextInput, TextAreaInput, NumberInput, ArrayInput } from "../components/forms";
 import { usePageTitle } from "../hooks";
+import { TextInput, TextAreaInput, NumberInput, ArrayInput, CheckboxField } from "../components/forms";
 
 type FormValues = {
   properties: {
     title: string;
     description: string;
     license: string;
+    providers: ProviderFields[];
     platform: string;
     constellation: string;
     mission: string;
@@ -28,6 +32,11 @@ function ItemForm () {
   const { update, state: updateState } = useUpdateItem(itemResource);
 
   const { control, register, handleSubmit, formState: { errors } } = useForm<FormValues>({ values: item });
+  const {
+    fields,
+    append,
+    remove
+  } = useFieldArray({ control, name: "properties.providers" });
   const onSubmit = (data: any) => {
     update(data).then(reload);
   };
@@ -58,6 +67,83 @@ function ItemForm () {
           error={errors.properties?.license}
           {...register("properties.license")}
         />
+
+        <fieldset>
+          <legend>Providers</legend>
+
+          <Table variant="simple" size="sm">
+            <Thead>
+              <Tr>
+                <Th id="provider_name">Name</Th>
+                <Th id="provider_description">Description</Th>
+                <Th id="provider_roles">Roles</Th>
+                <Th id="provider_url">URL</Th>
+                <Th aria-label="Actions"></Th>
+              </Tr>
+            </Thead>
+            <Tbody>
+              {fields.map(({ id }, idx: number) => (
+                <Tr key={id}>
+                  <Td>
+                    <Input
+                      {...register(`properties.providers.${idx}.name`)}
+                      aria-labelledby="provider_name"
+                    />
+                  </Td>
+                  <Td>
+                    <Input
+                      {...register(`properties.providers.${idx}.description`)}
+                      aria-labelledby="provider_description"
+                    />
+                  </Td>
+                  <Td>
+                    <Controller
+                      name={`properties.providers.${idx}.roles`}
+                      render={({ field }) => (
+                        <CheckboxField
+                          aria-labelledby="provider_roles"
+                          options={[
+                            { value: 'licensor', label: 'Licensor' },
+                            { value: 'producer', label: 'Producer' },
+                            { value: 'processor', label: 'Processor' },
+                            { value: 'host', label: 'Host'}
+                          ]}
+                          {...field}
+                        />
+                      )}
+                      control={control}
+                    />
+                  </Td>
+                  <Td>
+                    <Input
+                      {...register(`properties.providers.${idx}.url`)}
+                      aria-labelledby="provider_url"
+                    />
+                  </Td>
+                  <Td>
+                    <IconButton
+                      type="button"
+                      size="sm"
+                      icon={<MdDelete />}
+                      onClick={() => remove(idx)}
+                      aria-label="Remove provider"
+                    />
+                  </Td>
+                </Tr>
+              ))}
+            </Tbody>
+          </Table>
+          <Box textAlign="right" mt="2">
+            <Button
+              type="button"
+              variant="link"
+              leftIcon={<MdAdd />}
+              onClick={() => append({ name: '' })}
+            >
+              Add provider
+            </Button>
+          </Box>
+        </fieldset>
 
         <Text as="h2">Instruments</Text>
         <TextInput
