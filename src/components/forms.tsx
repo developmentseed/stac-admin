@@ -12,7 +12,7 @@ import {
   Select,
   NumberInput as Number,
   NumberInputField,
-  IconButton
+  IconButton,
 } from "@chakra-ui/react";
 
 const FIELD_MARGIN = "4";
@@ -82,7 +82,7 @@ export const SelectInput = React.forwardRef<HTMLInputElement, SelectProps>(
   )
 );
 
-export const ArrayInput = React.forwardRef<HTMLInputElement, InputProps>(
+export const ArrayField = React.forwardRef<HTMLInputElement, InputProps>(
   ({onChange, value, ...props}: InputProps, ref) => {
     const [ val, setVal ] = useState(value?.join(',') || '');
 
@@ -93,7 +93,13 @@ export const ArrayInput = React.forwardRef<HTMLInputElement, InputProps>(
       onChange(event.target.value.split(',').map(val => val.trim()))
     }
 
-    return <Field {...props} FieldComponent={Input} value={val} onChange={handleChange} ref={ref} />;
+    return <Input {...props} value={val} onChange={handleChange} ref={ref} />;
+  }
+);
+
+export const ArrayInput = React.forwardRef<HTMLInputElement, InputProps>(
+  (props: InputProps, ref) => {
+    return <Field {...props} FieldComponent={ArrayField} ref={ref} />;
   }
 );
 
