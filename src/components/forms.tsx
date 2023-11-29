@@ -91,8 +91,14 @@ export const ArrayField = React.forwardRef<HTMLInputElement, InputProps>(
     useEffect(() => setVal(value?.join(',') || ''), [value])
 
     const handleChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
-      setVal(event.target.value);
-      onChange(event.target.value.split(',').map(val => val.trim()))
+      const { value } = event.target;
+      setVal(value);
+
+      if (value.length === 0) {
+        onChange();
+      } else {
+        onChange(event.target.value?.split(',').map(val => val.trim()));
+      }
     }
 
     return <Input {...props} value={val} onChange={handleChange} ref={ref} />;
