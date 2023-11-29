@@ -9,7 +9,7 @@ import { usePageTitle } from "../../hooks";
 import ItemListFilter from "./ItemListFilter";
 
 function ItemList() {
-  usePageTitle('Items');
+  usePageTitle("Items");
   const {
     results,
     state,
@@ -28,7 +28,7 @@ function ItemList() {
     <>
       <Heading as="h1">Items</Heading>
       <ItemListFilter submit={submit} {...searchState} />
-      { !results || state === 'LOADING' ? (
+      { !results || state === "LOADING" ? (
         <Loading>Loading items...</Loading>
       ) : (
         <>
@@ -38,19 +38,19 @@ function ItemList() {
                 <Tr>
                   <Th>ID</Th>
                   <Th>Collection</Th>
-                  <Th aria-label="Actions"></Th>
+                  <Th aria-label="Actions" />
                 </Tr>
               </Thead>
               <Tbody>
-              {results.features.map(({ id, collection }: StacItem) => (
-                <Tr key={id}>
-                  <Td>{id}</Td>
-                  <Td>{collection}</Td>
-                  <Td fontSize="sm">
-                    <Link to={`/collections/${collection}/items/${id}`}>Edit</Link>
-                  </Td>
-                </Tr>
-              ))}
+                {results.features.map(({ id, collection }: StacItem) => (
+                  <Tr key={id}>
+                    <Td>{id}</Td>
+                    <Td>{collection}</Td>
+                    <Td fontSize="sm">
+                      <Link to={`/collections/${collection}/items/${id}`}>Edit</Link>
+                    </Td>
+                  </Tr>
+                ))}
               </Tbody>
             </Table>
           </TableContainer>

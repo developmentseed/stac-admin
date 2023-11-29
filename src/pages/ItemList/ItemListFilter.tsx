@@ -1,10 +1,10 @@
 import { useState, useRef, useCallback } from "react";
 import { Box, Button, Text, useDisclosure, Icon } from "@chakra-ui/react";
-import { MdChevronLeft, MdExpandMore } from 'react-icons/md'
+import { MdChevronLeft, MdExpandMore } from "react-icons/md";
 import { useCollections } from "@developmentseed/stac-react";
-import Map, { type MapRef, Source, Layer } from 'react-map-gl/maplibre';
-import 'maplibre-gl/dist/maplibre-gl.css';
+import Map, { type MapRef, Source, Layer } from "react-map-gl/maplibre";
 import { StacCollection } from "stac-ts";
+import "maplibre-gl/dist/maplibre-gl.css";
 
 import { ArrayInput, DateRangeInput, SelectInput } from "../../components/forms";
 import DrawBboxControl from "./DrawBboxControl";
@@ -24,7 +24,6 @@ type ItemListFilterProps = {
 }
 
 function ItemListFilter({
-  ids,
   setIds,
   bbox,
   setBbox,
@@ -42,19 +41,19 @@ function ItemListFilter({
 
   const handleSelectCollection: React.ChangeEventHandler<HTMLSelectElement> = (event) => {
     setCollections([ event.target.value ]);
-  }
+  };
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
     submit();
     onClose();
-  }
+  };
 
   // Date range state and handlers
-  const dateRangeFromValue = dateRangeFrom?.split('T')[0];
-  const handleDateRangeFrom = (value: string) => setDateRangeFrom(value ? `${value}T00:00:00Z` : '');
-  const dateRangeToValue = dateRangeTo?.split('T')[0];
-  const handleDateRangeTo = (value: string) => setDateRangeTo(value ? `${value}T00:00:00Z` : '');
+  const dateRangeFromValue = dateRangeFrom?.split("T")[0];
+  const handleDateRangeFrom = (value: string) => setDateRangeFrom(value ? `${value}T00:00:00Z` : "");
+  const dateRangeToValue = dateRangeTo?.split("T")[0];
+  const handleDateRangeTo = (value: string) => setDateRangeTo(value ? `${value}T00:00:00Z` : "");
   const rangeError = (!!dateRangeTo && !!dateRangeFrom) && dateRangeFrom >= dateRangeTo;
 
   // BBox state and handlers
@@ -85,7 +84,7 @@ function ItemListFilter({
             helper="Enter a comma-separated list of item IDs you want to match."
           />
           <SelectInput label="Collection" onChange={handleSelectCollection}>
-            <option value=""></option>
+            <option value="" />
             { collections?.collections.map(({ id }: StacCollection) => (
               <option key={id} value={id}>{ id }</option>
             ))}
@@ -96,7 +95,7 @@ function ItemListFilter({
             setDateRangeFrom={handleDateRangeFrom}
             dateRangeTo={dateRangeToValue}
             setDateRangeTo={handleDateRangeTo}
-            error={rangeError ? { message: 'The to-date must be later than the from-date.' } : undefined}
+            error={rangeError ? { message: "The to-date must be later than the from-date." } : undefined}
           />
         </Box>
         <Box display="grid" gridTemplateRows="max-content 1fr" gap="2">
@@ -108,11 +107,11 @@ function ItemListFilter({
             )}
           </Box>
           <Box>
-            <Map ref={mapRef} >
+            <Map ref={mapRef}>
               <Source
                 id="background"
                 type="raster"
-                tiles={['https://tile.openstreetmap.org/{z}/{x}/{y}.png']}
+                tiles={["https://tile.openstreetmap.org/{z}/{x}/{y}.png"]}
                 tileSize={256}
                 attribution="Background tiles: © <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap contributors</a>"
               >
@@ -127,7 +126,7 @@ function ItemListFilter({
         </Box>
       </Box>
     </Box>
-  )
+  );
 }
 
 export default ItemListFilter;

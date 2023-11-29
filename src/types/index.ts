@@ -8,4 +8,4 @@ export type ApiError = {
   statusText: string
 }
 
-export type LoadingState = 'IDLE' | 'LOADING';
+export type LoadingState = "IDLE" | "LOADING";

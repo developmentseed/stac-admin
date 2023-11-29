@@ -1,41 +1,41 @@
-import { extendTheme } from '@chakra-ui/react';
-import Container from './Container';
+import { extendTheme } from "@chakra-ui/react";
+import Container from "./Container";
 
 export default extendTheme({
   styles: {
     global: {
       body: {
-        bgColor: 'gray.50'
+        bgColor: "gray.50"
       },
-      'main *:first-child': {
+      "main *:first-child": {
         mt: 0
       },
       a: {
-        color: 'blue.800',
-        textDecoration: 'underline',
+        color: "blue.800",
+        textDecoration: "underline",
         _hover: {
-          bg: 'yellow.100',
-          textDecoration: 'none',
+          bg: "yellow.100",
+          textDecoration: "none",
         }
       },
       h1: {
-        fontWeight: 'bold',
-        fontSize: '4xl',
-        my: '4'
+        fontWeight: "bold",
+        fontSize: "4xl",
+        my: "4"
       },
       h2: {
-        fontWeight: 'bold',
-        fontSize: '2xl',
-        my: '4'
+        fontWeight: "bold",
+        fontSize: "2xl",
+        my: "4"
       },
       p: {
-        my: '4'
+        my: "4"
       },
       ul: {
-        my: '4'
+        my: "4"
       },
       legend: {
-        fontWeight: '500'
+        fontWeight: "500"
       }
     },
   },

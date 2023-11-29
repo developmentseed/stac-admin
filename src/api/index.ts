@@ -5,7 +5,7 @@ class Api {
     return fetch(url, options)
       .then(async (response) => {
         if (response.ok) {
-          return response.json()
+          return response.json();
         }
 
         const { status, statusText } = response;

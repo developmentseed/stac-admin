@@ -3,7 +3,7 @@ import { Text } from "@chakra-ui/react";
 import { usePageTitle } from "../hooks";
 
 function NotFound() {
-  usePageTitle('Not found');
+  usePageTitle("Not found");
 
   return (
     <>

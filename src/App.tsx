@@ -7,9 +7,9 @@ import {
   ChakraProvider,
   Box,
   Container,
-} from "@chakra-ui/react"
+} from "@chakra-ui/react";
 import { StacApiProvider } from "@developmentseed/stac-react";
-import theme from "./theme"
+import theme from "./theme";
 import { MainNavigation } from "./components";
 import Home from "./pages/Home";
 import CollectionList from "./pages/CollectionList";
@@ -20,7 +20,7 @@ import NotFound from "./pages/NotFound";
 
 export const App = () => (
   <ChakraProvider theme={theme}>
-    <StacApiProvider apiUrl={process.env.REACT_APP_STAC_API!}>
+    <StacApiProvider apiUrl={process.env.REACT_APP_STAC_API!}> {/* eslint-disable-line @typescript-eslint/no-non-null-assertion */}
       <Router>
         <Container mx="auto" p="5" bgColor="white" boxShadow="md">
           <Box
@@ -48,4 +48,4 @@ export const App = () => (
       </Router>
     </StacApiProvider>
   </ChakraProvider>
-)
+);

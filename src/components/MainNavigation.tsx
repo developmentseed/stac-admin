@@ -14,7 +14,7 @@ function NavItem({ to, children }: NavItemProps) {
         borderRadius="5"
         px="2"
         py="1"
-        _hover={{ bgColor: 'gray.100' }}
+        _hover={{ bgColor: "gray.100" }}
       >
         {children}
       </Link>

@@ -18,7 +18,7 @@ const addDrawControl = (map: Map, drawingCompleted: (f: GeoJSONFeature) => void)
     boxSelect: false,
     displayControlsDefault: false,
   };
-  const draw = new MapboxDraw(options) as any;
+  const draw = new MapboxDraw(options) as any; // eslint-disable-line @typescript-eslint/no-explicit-any
 
   map.addControl(draw);
   map.on("draw.create", (e) => {
@@ -35,7 +35,7 @@ type DrawBboxControlProps = {
   handleDrawComplete: (bbox: number[]) => void;
   isEnabled: boolean;
   bbox?: number[]
-  map: any
+  map: any // eslint-disable-line @typescript-eslint/no-explicit-any
 }
 
 function DrawBboxControl({ map, handleDrawComplete, isEnabled, bbox }: DrawBboxControlProps) {
@@ -58,15 +58,15 @@ function DrawBboxControl({ map, handleDrawComplete, isEnabled, bbox }: DrawBboxC
 
   useEffect(() => {
     if (isEnabled && drawControlRef.current) {
-      drawControlRef.current!.deleteAll();
-      drawControlRef.current!.changeMode("draw_rectangle");
+      drawControlRef.current.deleteAll();
+      drawControlRef.current.changeMode("draw_rectangle");
       map.getCanvas().style.cursor = "crosshair";
     }
   }, [isEnabled, map]);
 
   useEffect(() => {
     if (!bbox && drawControlRef.current) {
-      drawControlRef.current!.deleteAll();
+      drawControlRef.current.deleteAll();
     }
   }, [bbox]);
 

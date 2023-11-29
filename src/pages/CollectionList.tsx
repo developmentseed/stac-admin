@@ -1,18 +1,18 @@
 import { Link } from "react-router-dom";
-import { TableContainer, Table, Text, Thead, Tr, Th, Td, Tbody } from '@chakra-ui/react'
-import { useCollections } from '@developmentseed/stac-react';
-import type { StacCollection } from 'stac-ts';
-import { Loading } from '../components';
+import { TableContainer, Table, Text, Thead, Tr, Th, Td, Tbody } from "@chakra-ui/react";
+import { useCollections } from "@developmentseed/stac-react";
+import type { StacCollection } from "stac-ts";
+import { Loading } from "../components";
 import { usePageTitle } from "../hooks";
 
 function CollectionList() {
-  usePageTitle('Collections');
+  usePageTitle("Collections");
   const { collections, state } = useCollections();
 
   return (
     <>
       <Text as="h1">Collections</Text>
-      { !collections || state === 'LOADING' ? (
+      { !collections || state === "LOADING" ? (
         <Loading>Loading collections...</Loading>
       ) : (
         <TableContainer>
@@ -20,24 +20,24 @@ function CollectionList() {
             <Thead>
               <Tr>
                 <Th>ID</Th>
-                <Th aria-label="Actions"></Th>
+                <Th aria-label="Actions" />
               </Tr>
             </Thead>
             <Tbody>
-            {collections.collections.map(({ id }: StacCollection) => (
-              <Tr key={id}>
-                <Td>{id}</Td>
-                <Td fontSize="sm">
-                  <Link to={`/collections/${id}`}>Edit</Link>
-                </Td>
-              </Tr>
-            ))}
+              {collections.collections.map(({ id }: StacCollection) => (
+                <Tr key={id}>
+                  <Td>{id}</Td>
+                  <Td fontSize="sm">
+                    <Link to={`/collections/${id}`}>Edit</Link>
+                  </Td>
+                </Tr>
+              ))}
             </Tbody>
           </Table>
         </TableContainer>
       )}
     </>
-  )
+  );
 }
 
 export default CollectionList;

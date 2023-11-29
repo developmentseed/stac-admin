@@ -3,31 +3,18 @@ import { Controller, useFieldArray, useForm } from "react-hook-form";
 import { Box, Heading, Button, Text, Table, Thead, Tr, Th, Tbody, Td, Input, IconButton } from "@chakra-ui/react";
 import { useItem } from "@developmentseed/stac-react";
 import { MdAdd, MdDelete } from "react-icons/md";
-import { ProviderFields } from "stac-ts";
+import { StacItem } from "stac-ts";
 
-import { HeadingLead, Loading } from "../components";
+import { FormValues } from "./types";
+import { HeadingLead, Loading } from "../../components";
 import useUpdateItem from "./useUpdateItem";
-import { usePageTitle } from "../hooks";
-import { TextInput, TextAreaInput, NumberInput, ArrayInput, CheckboxField } from "../components/forms";
-
-type FormValues = {
-  properties: {
-    title: string;
-    description: string;
-    license: string;
-    providers: ProviderFields[];
-    platform: string;
-    constellation: string;
-    mission: string;
-    gsd: number;
-    instrument: string[];
-  }
-}
+import { usePageTitle } from "../../hooks";
+import { TextInput, TextAreaInput, NumberInput, ArrayInput, CheckboxField } from "../../components/forms";
 
 function ItemForm () {
   const { collectionId, itemId } = useParams();
   usePageTitle(`Edit item ${itemId}`);
-  const itemResource = `${process.env.REACT_APP_STAC_API}/collections/${collectionId}/items/${itemId}`
+  const itemResource = `${process.env.REACT_APP_STAC_API}/collections/${collectionId}/items/${itemId}`;
   const { item, state, reload } = useItem(itemResource);
   const { update, state: updateState } = useUpdateItem(itemResource);
 
@@ -37,12 +24,12 @@ function ItemForm () {
     append,
     remove
   } = useFieldArray({ control, name: "properties.providers" });
-  const onSubmit = (data: any) => {
+  const onSubmit = (data: StacItem) => {
     update(data).then(reload);
   };
 
   if (!item || state === "LOADING") {
-    return <Loading>Loading item...</Loading>
+    return <Loading>Loading item...</Loading>;
   }
 
   return (
@@ -78,7 +65,7 @@ function ItemForm () {
                 <Th id="provider_description">Description</Th>
                 <Th id="provider_roles">Roles</Th>
                 <Th id="provider_url">URL</Th>
-                <Th aria-label="Actions"></Th>
+                <Th aria-label="Actions" />
               </Tr>
             </Thead>
             <Tbody>
@@ -103,10 +90,10 @@ function ItemForm () {
                         <CheckboxField
                           aria-labelledby="provider_roles"
                           options={[
-                            { value: 'licensor', label: 'Licensor' },
-                            { value: 'producer', label: 'Producer' },
-                            { value: 'processor', label: 'Processor' },
-                            { value: 'host', label: 'Host'}
+                            { value: "licensor", label: "Licensor" },
+                            { value: "producer", label: "Producer" },
+                            { value: "processor", label: "Processor" },
+                            { value: "host", label: "Host"}
                           ]}
                           {...field}
                         />
@@ -138,7 +125,7 @@ function ItemForm () {
               type="button"
               variant="link"
               leftIcon={<MdAdd />}
-              onClick={() => append({ name: '' })}
+              onClick={() => append({ name: "" })}
             >
               Add provider
             </Button>
