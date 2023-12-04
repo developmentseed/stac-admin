@@ -59,54 +59,56 @@ function ItemList() {
     <>
       <Heading as="h1">Items</Heading>
       <ItemListFilter submit={submit} {...searchState} />
-      { !results || state === "LOADING" ? (
-        <Loading>Loading items...</Loading>
-      ) : (
-        <>
-          <TableContainer>
-            <Table size="sm">
-              <Thead>
-                <Tr>
-                  <SortableTh fieldName="id" sort={sort} setSort={handleSort}>ID</SortableTh>
-                  <SortableTh fieldName="collection" sort={sort} setSort={handleSort}>Collection</SortableTh>
-                  <Th aria-label="Actions" />
+      <TableContainer>
+        <Table size="sm">
+          <Thead>
+            <Tr>
+              <SortableTh fieldName="id" sort={sort} setSort={handleSort}>ID</SortableTh>
+              <SortableTh fieldName="collection" sort={sort} setSort={handleSort}>Collection</SortableTh>
+              <Th aria-label="Actions" />
+            </Tr>
+          </Thead>
+          <Tbody>
+            { !results || state === "LOADING" ? (
+              <Tr>
+                <Td colSpan={3}>
+                  <Loading>Loading items...</Loading>
+                </Td>
+              </Tr>
+            ) : (
+              results.features.map(({ id, collection }: StacItem) => (
+                <Tr key={id}>
+                  <Td>{id}</Td>
+                  <Td>{collection}</Td>
+                  <Td fontSize="sm">
+                    <Link to={`/collections/${collection}/items/${id}`}>Edit</Link>
+                  </Td>
                 </Tr>
-              </Thead>
-              <Tbody>
-                {results.features.map(({ id, collection }: StacItem) => (
-                  <Tr key={id}>
-                    <Td>{id}</Td>
-                    <Td>{collection}</Td>
-                    <Td fontSize="sm">
-                      <Link to={`/collections/${collection}/items/${id}`}>Edit</Link>
-                    </Td>
-                  </Tr>
-                ))}
-              </Tbody>
-            </Table>
-          </TableContainer>
-          <Flex mt="4" display="flex" gap="2" fontSize="sm" alignItems="baseline">
-            <Flex flex="1" gap="2" alignItems="baseline">
-              <Select
-                value={limit}
-                onChange={(e) => setLimit(parseInt(e.target.value))}
-                w="20"
-                size="sm"
-                id="limit"
-              >
-                <option value="10">10</option>
-                <option value="25">25</option>
-                <option value="50">50</option>
-                <option value="100">100</option>
-              </Select>
-              <Text as="label" htmlFor="limit">items per page</Text>
-            </Flex>
-            { previousPage && <Button variant="link" size="sm" onClick={previousPage}>Previous page</Button>}
-            { (previousPage && nextPage) && " | "}
-            { nextPage && <Button variant="link" size="sm" onClick={nextPage}>Next page</Button> }
-          </Flex>
-        </>
-      )}
+              ))
+            )}
+          </Tbody>
+        </Table>
+      </TableContainer>
+      <Flex mt="4" display="flex" gap="2" fontSize="sm" alignItems="baseline">
+        <Flex flex="1" gap="2" alignItems="baseline">
+          <Select
+            value={limit}
+            onChange={(e) => setLimit(parseInt(e.target.value))}
+            w="20"
+            size="sm"
+            id="limit"
+          >
+            <option value="10">10</option>
+            <option value="25">25</option>
+            <option value="50">50</option>
+            <option value="100">100</option>
+          </Select>
+          <Text as="label" htmlFor="limit">items per page</Text>
+        </Flex>
+        { previousPage && <Button variant="link" size="sm" onClick={previousPage}>Previous page</Button>}
+        { (previousPage && nextPage) && " | "}
+        { nextPage && <Button variant="link" size="sm" onClick={nextPage}>Next page</Button> }
+      </Flex>
     </>
   );
 }

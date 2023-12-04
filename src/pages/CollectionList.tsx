@@ -12,30 +12,34 @@ function CollectionList() {
   return (
     <>
       <Text as="h1">Collections</Text>
-      { !collections || state === "LOADING" ? (
-        <Loading>Loading collections...</Loading>
-      ) : (
-        <TableContainer>
-          <Table size="sm">
-            <Thead>
+      <TableContainer>
+        <Table size="sm">
+          <Thead>
+            <Tr>
+              <Th>ID</Th>
+              <Th aria-label="Actions" />
+            </Tr>
+          </Thead>
+          <Tbody>
+            { !collections || state === "LOADING" ? (
               <Tr>
-                <Th>ID</Th>
-                <Th aria-label="Actions" />
+                <Td colSpan={2}>
+                  <Loading>Loading collections...</Loading>
+                </Td>
               </Tr>
-            </Thead>
-            <Tbody>
-              {collections.collections.map(({ id }: StacCollection) => (
+            ) : (
+              collections.collections.map(({ id }: StacCollection) => (
                 <Tr key={id}>
                   <Td>{id}</Td>
                   <Td fontSize="sm">
                     <Link to={`/collections/${id}`}>Edit</Link>
                   </Td>
                 </Tr>
-              ))}
-            </Tbody>
-          </Table>
-        </TableContainer>
-      )}
+              ))
+            )}
+          </Tbody>
+        </Table>
+      </TableContainer>
     </>
   );
 }
