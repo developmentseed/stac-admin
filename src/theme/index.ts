@@ -7,7 +7,7 @@ export default extendTheme({
       body: {
         bgColor: "gray.50"
       },
-      "main *:first-child": {
+      "main > *:first-child": {
         mt: 0
       },
       a: {
@@ -36,6 +36,9 @@ export default extendTheme({
       },
       legend: {
         fontWeight: "500"
+      },
+      "fieldset label": {
+        fontWeight: "400 !important"
       }
     },
   },

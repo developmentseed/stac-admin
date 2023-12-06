@@ -36,5 +36,8 @@ export type FormValues = {
     mission: string;
     gsd: number;
     instrument: string[];
+    datetime: string | null;
+    start_datetime?: string;
+    end_datetime?: string;
   }
 }

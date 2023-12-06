@@ -132,6 +132,13 @@ export const ArrayInput = React.forwardRef<HTMLInputElement, InputProps>(
 );
 ArrayInput.displayName = "ArrayInput";
 
+export const DateTimeInput = React.forwardRef<HTMLInputElement, InputProps>(
+  (props: InputProps, ref) => (
+    <Field {...props} FieldComponent={Input} type="datetime-local" ref={ref} />
+  )
+);
+DateTimeInput.displayName = "DateTimeInput";
+
 type DateRangeInputProps = InputProps & {
   dateRangeFrom?: string,
   setDateRangeFrom: (date: string) => void,

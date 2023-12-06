@@ -1,6 +1,7 @@
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Controller, useFieldArray, useForm } from "react-hook-form";
-import { Box, Heading, Button, Text, Table, Thead, Tr, Th, Tbody, Td, Input, IconButton } from "@chakra-ui/react";
+import { Box, Heading, Button, Text, Table, Thead, Tr, Th, Tbody, Td, Input, IconButton, RadioGroup, Stack, Radio } from "@chakra-ui/react";
 import { useItem } from "@developmentseed/stac-react";
 import { MdAdd, MdDelete } from "react-icons/md";
 import { StacItem } from "stac-ts";
@@ -9,7 +10,7 @@ import { FormValues } from "./types";
 import { HeadingLead, Loading } from "../../components";
 import useUpdateItem from "./useUpdateItem";
 import { usePageTitle } from "../../hooks";
-import { TextInput, TextAreaInput, NumberInput, ArrayInput, CheckboxField } from "../../components/forms";
+import { TextInput, TextAreaInput, NumberInput, ArrayInput, CheckboxField, DateTimeInput } from "../../components/forms";
 
 function ItemForm () {
   const { collectionId, itemId } = useParams();
@@ -18,14 +19,51 @@ function ItemForm () {
   const { item, state, reload } = useItem(itemResource);
   const { update, state: updateState } = useUpdateItem(itemResource);
 
-  const { control, register, handleSubmit, formState: { errors } } = useForm<FormValues>({ values: item });
+  const {
+    control,
+    register,
+    handleSubmit,
+    formState: { errors },
+    setValue
+  } = useForm<FormValues>({ values: item });
+  
   const {
     fields,
     append,
     remove
   } = useFieldArray({ control, name: "properties.providers" });
-  const onSubmit = (data: StacItem) => {
-    update(data).then(reload);
+  const onSubmit = (data: StacItem) => update(data).then(reload);
+  
+  const [ dateType, setDateType ] = useState<string>();
+
+  useEffect(() => {
+    if (!item) return;
+
+    const { start_datetime, end_datetime, datetime } = item.properties;
+    if (start_datetime && end_datetime) {
+      setDateType("range");
+      setValue("properties.start_datetime", start_datetime.split("Z")[0]);
+      setValue("properties.end_datetime", end_datetime.split("Z")[0]);
+    } else {
+      setDateType("single");
+      setValue("properties.datetime", datetime.split("Z")[0]);
+    }
+  }, [item, setValue]);
+
+  const handleRangeUpdate = (v?: string) => {
+    if (v) {
+      setValue("properties.datetime", null);
+    }
+    return `${v}Z`;
+  };
+
+  const handleSingleDateUpdate = (v?: string) => {
+    if (v) {
+      setValue("properties.start_datetime", undefined);
+      setValue("properties.end_datetime", undefined);
+      return `${v}Z`;
+    }
+    return null;
   };
 
   if (!item || state === "LOADING") {
@@ -54,6 +92,48 @@ function ItemForm () {
           error={errors.properties?.license}
           {...register("properties.license")}
         />
+
+        <fieldset>
+          <legend>Date</legend>
+          <RadioGroup onChange={setDateType} value={dateType}>
+            <Stack direction="row">
+              <Radio value="single">Single date</Radio>
+              <Radio value="range">Date range</Radio>
+            </Stack>
+          </RadioGroup>
+          <Box
+            aria-hidden={dateType !== "single"}
+            display={dateType === "single" ? "block" : "none"}
+          >
+            <DateTimeInput  
+              label="Enter date"
+              error={errors.properties?.datetime}
+              {...register("properties.datetime", {
+                setValueAs: handleSingleDateUpdate
+              })}
+            />
+          </Box>
+          <Box
+            aria-hidden={dateType === "single"}
+            display={dateType !== "single" ? "flex" : "none"}
+            gap="4"
+          >
+            <DateTimeInput
+              label="Date/time from"
+              error={errors.properties?.start_datetime}
+              {...register("properties.start_datetime", {
+                setValueAs: handleRangeUpdate
+              })}
+            />
+            <DateTimeInput
+              label="Date/time to"
+              error={errors.properties?.end_datetime}
+              {...register("properties.end_datetime", {
+                setValueAs: handleRangeUpdate
+              })}
+            />
+          </Box>
+        </fieldset>
 
         <fieldset>
           <legend>Providers</legend>
