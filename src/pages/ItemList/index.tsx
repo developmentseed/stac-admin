@@ -13,8 +13,12 @@ import {
   Button,
   Select,
   Text,
-  usePrevious
+  usePrevious,
+  Box,
+  Icon,
+  useDisclosure
 } from "@chakra-ui/react";
+import { MdChevronLeft, MdExpandMore } from "react-icons/md";
 import { useStacSearch } from "@developmentseed/stac-react";
 import { StacItem } from "stac-ts";
 
@@ -55,10 +59,29 @@ function ItemList() {
   const sort = sortby?.length ? sortby[0] : undefined;
   const handleSort = (sort: Sort) => setSortby([ sort ]);
 
+  const handleSubmit = () => {
+    submit();
+    onClose();
+  };
+
+  const { isOpen, onClose, getDisclosureProps, getButtonProps } = useDisclosure();
+  const buttonProps = getButtonProps();
+  const disclosureProps = getDisclosureProps();
+
   return (
     <>
-      <Heading as="h1">Items</Heading>
-      <ItemListFilter submit={submit} {...searchState} />
+      <Box display="flex" alignItems="baseline" gap="4">
+        <Heading as="h1" flex="1">Items</Heading>
+        <Button
+          size="sm"
+          variant="link"
+          {...buttonProps}
+        >
+          Filter items
+          <Icon as={isOpen ? MdExpandMore : MdChevronLeft} boxSize="4" />
+        </Button>
+      </Box>
+      <ItemListFilter submit={handleSubmit} {...disclosureProps} {...searchState} />
       <TableContainer>
         <Table size="sm">
           <Thead>
