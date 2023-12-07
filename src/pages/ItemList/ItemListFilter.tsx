@@ -15,7 +15,7 @@ type ItemListFilterProps = {
   bbox?: number[];
   setBbox: (bbox: number[]) => void;
   collections?: StacCollection[];
-  setCollections: (collections: string[]) => void;
+  setCollections: (collections?: string[]) => void;
   dateRangeFrom?: string;
   setDateRangeFrom: (date: string) => void;
   dateRangeTo?: string;
@@ -40,7 +40,7 @@ function ItemListFilter({
   const disclosureProps = getDisclosureProps();
 
   const handleSelectCollection: React.ChangeEventHandler<HTMLSelectElement> = (event) => {
-    setCollections([ event.target.value ]);
+    setCollections(event.target.value ? [ event.target.value ] : undefined);
   };
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
