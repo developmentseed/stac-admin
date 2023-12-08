@@ -1,15 +1,7 @@
-import { useEffect } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
 import {
   Flex,
   Heading,
-  TableContainer,
-  Table,
-  Thead,
-  Tr,
-  Th,
-  Td,
-  Tbody,
   Button,
   Select,
   Text,
@@ -20,12 +12,12 @@ import {
 } from "@chakra-ui/react";
 import { MdChevronLeft, MdExpandMore } from "react-icons/md";
 import { useStacSearch } from "@developmentseed/stac-react";
-import { StacItem } from "stac-ts";
 
-import { Loading } from "../../components";
 import { usePageTitle } from "../../hooks";
+import { Sort } from "../../components/SortableTh";
 import ItemListFilter from "./ItemListFilter";
-import SortableTh, { Sort } from "../../components/SortableTh";
+import TableView from "./TableView";
+import MapView from "./MapView";
 
 function ItemList() {
   usePageTitle("Items");
@@ -44,11 +36,7 @@ function ItemList() {
   const previousSortby = usePrevious(sortby);
   const previousLimit = usePrevious(limit);
 
-  useEffect(() => {
-    if (results) return;
-    submit();
-  }, [submit]); // eslint-disable-line react-hooks/exhaustive-deps
-
+  // Submit handlers and effects
   useEffect(() => {
     // Automatically execute a new item search if the sorting or limit have changed
     if (sortby !== previousSortby || limit !== previousLimit) {
@@ -59,14 +47,26 @@ function ItemList() {
   const sort = sortby?.length ? sortby[0] : undefined;
   const handleSort = (sort: Sort) => setSortby([ sort ]);
 
+  // Submit handlers and effects
+  useEffect(() => {
+    // Automatically submit to receive intial results
+    if (results) return;
+    submit();
+  }, [submit]); // eslint-disable-line react-hooks/exhaustive-deps
+
   const handleSubmit = () => {
     submit();
     onClose();
   };
 
+  // Filter form states and hooks
   const { isOpen, onClose, getDisclosureProps, getButtonProps } = useDisclosure();
   const buttonProps = getButtonProps();
   const disclosureProps = getDisclosureProps();
+
+  // Map view state
+  const [ showMap, setShowMap ] = useState<boolean>(false);
+  const [ highlightItem, setHighlightItem ] = useState<string>();
 
   return (
     <>
@@ -80,38 +80,28 @@ function ItemList() {
           Filter items
           <Icon as={isOpen ? MdExpandMore : MdChevronLeft} boxSize="4" />
         </Button>
+        <Button
+          size="sm"
+          variant="link"
+          onClick={() => setShowMap(prev => !prev)}
+          aria-pressed={showMap}
+        >
+          Show map
+        </Button>
       </Box>
       <ItemListFilter submit={handleSubmit} {...disclosureProps} {...searchState} />
-      <TableContainer>
-        <Table size="sm">
-          <Thead>
-            <Tr>
-              <SortableTh fieldName="id" sort={sort} setSort={handleSort}>ID</SortableTh>
-              <SortableTh fieldName="collection" sort={sort} setSort={handleSort}>Collection</SortableTh>
-              <Th aria-label="Actions" />
-            </Tr>
-          </Thead>
-          <Tbody>
-            { !results || state === "LOADING" ? (
-              <Tr>
-                <Td colSpan={3}>
-                  <Loading>Loading items...</Loading>
-                </Td>
-              </Tr>
-            ) : (
-              results.features.map(({ id, collection }: StacItem) => (
-                <Tr key={id}>
-                  <Td>{id}</Td>
-                  <Td>{collection}</Td>
-                  <Td fontSize="sm">
-                    <Link to={`/collections/${collection}/items/${id}`}>Edit</Link>
-                  </Td>
-                </Tr>
-              ))
-            )}
-          </Tbody>
-        </Table>
-      </TableContainer>
+      <Box display="flex" gap="4">  
+        <TableView
+          results={results}
+          compact={showMap}
+          sort={sort}
+          handleSort={handleSort}
+          state={state}
+          highlightItem={highlightItem}
+          setHighlightItem={setHighlightItem}
+        />
+        { showMap && <MapView results={results} highlightItem={highlightItem} setHighlightItem={setHighlightItem} /> }
+      </Box>
       <Flex mt="4" display="flex" gap="2" fontSize="sm" alignItems="baseline">
         <Flex flex="1" gap="2" alignItems="baseline">
           <Select
