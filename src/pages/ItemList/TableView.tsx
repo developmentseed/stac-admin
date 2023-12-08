@@ -64,7 +64,7 @@ function TableView({
                 <Td>{id}</Td>
                 {!compact && <Td>{collection}</Td>}
                 <Td fontSize="sm">
-                  <Link to={`/collections/${collection}/items/${id}`}>Edit</Link>
+                  <Link to={`/collections/${collection}/items/${id}/edit/`}>Edit</Link>
                 </Td>
               </Tr>
             ))
