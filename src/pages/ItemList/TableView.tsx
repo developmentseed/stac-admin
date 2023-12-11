@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   TableContainer,
   Table,
@@ -36,6 +36,8 @@ function TableView({
   highlightItem,
   setHighlightItem
 }: TableViewProps) {
+  const navigate = useNavigate();
+
   return (
     <TableContainer flex="1">
       <Table size="sm">
@@ -59,12 +61,16 @@ function TableView({
                 key={id}
                 onMouseEnter={() => setHighlightItem(id)}
                 onMouseLeave={() => setHighlightItem()}
+                onClick={() => navigate(`/collections/${collection}/items/${id}/`)}
                 bgColor={highlightItem === id ? "gray.50" : "inherit"}
+                _hover={{ cursor: "pointer" }}
               >
                 <Td>{id}</Td>
                 {!compact && <Td>{collection}</Td>}
                 <Td fontSize="sm">
-                  <Link to={`/collections/${collection}/items/${id}/edit/`}>Edit</Link>
+                  <Link to={`/collections/${collection}/items/${id}/`} aria-label={`View item ${id}`}>View</Link>
+                  {" "}|{" "}
+                  <Link to={`/collections/${collection}/items/${id}/edit/`} aria-label={`Edit item ${id}`}>Edit</Link>
                 </Td>
               </Tr>
             ))
