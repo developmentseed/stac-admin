@@ -11,14 +11,29 @@ The STAC-Admin is a tool designed for managing the values of a STAC (SpatioTempo
 - Yarn
 
 ### Installation
-1. Install Yarn packages:
+
+Install Yarn packages:
    ```
    yarn install
    ```
 
 ### Configuration
-Before running the application, update the `.env` file with the required environment variable:
+Before running the application, create a `.env.local` file with the required environment variable:
 - `REACT_APP_STAC_API`: Set this to the API endpoint of your STAC server.
+
+For example, you can use the local deployment of [`eoAPI`](https://github.com/developmentseed/eoAPI) with `docker-compose` to get up and running in minutes:
+```
+cd eoAPI
+docker-compose up
+```
+
+In your `.env.local` file:
+```
+REACT_APP_STAC_API=http://localhost:8081
+```
+
+:bulb: *See the eoAPI directly for it's getting started instruction and getting some sample data ingested.*
+
 
 ### Running the Application
 To start the application in development mode:
