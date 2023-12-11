@@ -61,7 +61,7 @@ function ItemDetail() {
           { description && <Text mt="0" mb="2">{ description }</Text>}
           <Button as={Link} to="edit/" size="sm">Edit</Button>
         </Box>
-        <Map ref={setMapRef} dragPan={false} cursor="default">
+        <Map ref={setMapRef} dragPan={false} scrollZoom={false} cursor="default">
           <Source
             id="background"
             type="raster"
