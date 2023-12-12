@@ -20,7 +20,7 @@ Install Yarn packages:
 Before running the application, create a `.env.local` file with the required environment variable:
 - `REACT_APP_STAC_API`: Set this to the API endpoint of your STAC server.
 
-:warning: The current implementation of stac-admin works against the APIs provided by stac-fastapi's Transaction Extension. Make sure the extension is enabled and the server accepts PUT requests.
+:warning: *The current implementation of `stac-admin` works against the APIs provided by `stac-fastapi`'s **Transaction Extension**. Make sure the extension is enabled and the server accepts `PUT` requests.*
 
 For example, you can use the local deployment of [`eoAPI`](https://github.com/developmentseed/eoAPI) with `docker-compose` to get up and running in minutes:
 ```
@@ -33,7 +33,7 @@ In your `.env.local` file:
 REACT_APP_STAC_API=http://localhost:8081
 ```
 
-:bulb: *See the eoAPI directly for its getting started instruction and getting some sample data ingested.*
+:bulb: *See `eoAPI` directly for its getting started instruction and getting some sample data ingested.*
 
 
 ### Running the Application
