@@ -68,9 +68,21 @@ function TableView({
                 <Td>{id}</Td>
                 {!compact && <Td>{collection}</Td>}
                 <Td fontSize="sm">
-                  <Link to={`/collections/${collection}/items/${id}/`} aria-label={`View item ${id}`}>View</Link>
+                  <Link
+                    to={`/collections/${collection}/items/${id}/`}
+                    aria-label={`View item ${id}`}
+                    onClick={e => e.stopPropagation()}
+                  >
+                    View
+                  </Link>
                   {" "}|{" "}
-                  <Link to={`/collections/${collection}/items/${id}/edit/`} aria-label={`Edit item ${id}`}>Edit</Link>
+                  <Link
+                    to={`/collections/${collection}/items/${id}/edit/`}
+                    aria-label={`Edit item ${id}`}
+                    onClick={e => e.stopPropagation()}
+                  >
+                    Edit
+                  </Link>
                 </Td>
               </Tr>
             ))

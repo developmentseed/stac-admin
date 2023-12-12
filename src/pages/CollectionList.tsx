@@ -37,9 +37,21 @@ function CollectionList() {
                 >
                   <Td>{id}</Td>
                   <Td fontSize="sm">
-                    <Link to={`/collections/${id}/`} aria-label={`View collection ${id}`}>View</Link>
+                    <Link
+                      to={`/collections/${id}/`}
+                      aria-label={`View collection ${id}`}
+                      onClick={e => e.stopPropagation()}
+                    >
+                      View
+                    </Link>
                     {" "}|{" "}
-                    <Link to={`/collections/${id}/edit/`} aria-label={`Edit collection ${id}`}>Edit</Link>
+                    <Link
+                      to={`/collections/${id}/edit/`}
+                      aria-label={`Edit collection ${id}`}
+                      onClick={e => e.stopPropagation()}
+                    >
+                      Edit
+                    </Link>
                   </Td>
                 </Tr>
               ))
