@@ -1,12 +1,5 @@
 import { useEffect } from "react";
-import {
-  Heading,
-  Button,
-  Box,
-  Icon,
-  useDisclosure
-} from "@chakra-ui/react";
-import { MdChevronLeft, MdExpandMore } from "react-icons/md";
+import { Heading, Box } from "@chakra-ui/react";
 import { useStacSearch } from "@developmentseed/stac-react";
 
 import { usePageTitle } from "../../hooks";
@@ -35,30 +28,12 @@ function ItemList() {
     submit();
   }, [submit]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const handleSubmit = () => {
-    submit();
-    onClose();
-  };
-
-  // Filter form states and hooks
-  const { isOpen, onClose, getDisclosureProps, getButtonProps } = useDisclosure();
-  const buttonProps = getButtonProps();
-  const disclosureProps = getDisclosureProps();
-
   return (
     <>
       <Box display="flex" alignItems="baseline" gap="4">
         <Heading as="h1" flex="1">Items</Heading>
-        <Button
-          size="sm"
-          variant="link"
-          {...buttonProps}
-        >
-          Filter items
-          <Icon as={isOpen ? MdExpandMore : MdChevronLeft} boxSize="4" />
-        </Button>
       </Box>
-      <ItemListFilter submit={handleSubmit} {...disclosureProps} {...searchState} />
+      <ItemListFilter submit={submit} {...searchState} />
       <ItemResults
         results={results}
         sortby={sortby}

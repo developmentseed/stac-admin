@@ -1,5 +1,6 @@
 import { useState, useRef, useCallback } from "react";
-import { Box, Button, Text } from "@chakra-ui/react";
+import { Box, Button, Icon, Text, useDisclosure } from "@chakra-ui/react";
+import { MdChevronRight, MdExpandMore } from "react-icons/md";
 import { useCollections } from "@developmentseed/stac-react";
 import Map, { type MapRef, Source, Layer } from "react-map-gl/maplibre";
 import { StacCollection } from "stac-ts";
@@ -18,8 +19,6 @@ type ItemListFilterProps = {
   dateRangeTo?: string;
   setDateRangeTo: (date: string) => void;
   submit: () => void;
-  hidden: boolean;
-  id: string;
 }
 
 function ItemListFilter({
@@ -31,11 +30,14 @@ function ItemListFilter({
   setDateRangeFrom,
   dateRangeTo,
   setDateRangeTo,
-  submit,
-  id,
-  hidden
+  submit
 }: ItemListFilterProps) {
   const { collections } = useCollections();
+
+  // Filter form states and hooks
+  const { isOpen, onClose, getDisclosureProps, getButtonProps } = useDisclosure();
+  const buttonProps = getButtonProps();
+  const disclosureProps = getDisclosureProps();
 
   const handleSelectCollection: React.ChangeEventHandler<HTMLSelectElement> = (event) => {
     setCollections(event.target.value ? [ event.target.value ] : undefined);
@@ -44,6 +46,7 @@ function ItemListFilter({
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
     submit();
+    onClose();
   };
 
   // Date range state and handlers
@@ -63,65 +66,79 @@ function ItemListFilter({
 
   return (
     <Box
-      as="form"
-      onSubmit={handleSubmit}
-      id={id}
-      hidden={hidden}
-      display="grid"
-      gap="4"
-      p="4"
-      mb="4"
-      gridTemplateColumns="1fr 1fr"
       borderRadius="5px"
       border="2px dashed"
       borderColor="gray.300"
+      mb="4"
+      px="4"
+      py="2"
     >
-      <Box>
-        <ArrayInput
-          label="Item IDs"
-          onChange={setIds}
-          helper="Enter a comma-separated list of item IDs you want to match."
-        />
-        <SelectInput label="Collection" onChange={handleSelectCollection}>
-          <option value="" />
-          { collections?.collections.map(({ id }: StacCollection) => (
-            <option key={id} value={id}>{ id }</option>
-          ))}
-        </SelectInput>
-        <DateRangeInput
-          label="Date range"
-          dateRangeFrom={dateRangeFromValue}
-          setDateRangeFrom={handleDateRangeFrom}
-          dateRangeTo={dateRangeToValue}
-          setDateRangeTo={handleDateRangeTo}
-          error={rangeError ? { message: "The to-date must be later than the from-date." } : undefined}
-        />
-      </Box>
-      <Box display="grid" gridTemplateRows="max-content 1fr" gap="2">
+      <Button
+        size="sm"
+        variant="link"
+        {...buttonProps}
+        display="flex"
+        alignItems="center"
+      >
+        <Icon as={isOpen ? MdExpandMore : MdChevronRight} boxSize="4" />
+        <span>Filter items</span>
+      </Button>
+      <Box
+        as="form"
+        onSubmit={handleSubmit}
+        display="grid"
+        gap="4"
+        mb="2"
+        gridTemplateColumns="1fr 1fr"
+        {...disclosureProps}
+      >
         <Box>
-          { isDrawing ? (
-            <Text p="0" m="0">Click on the map and drag to draw selected area.</Text>
-          ) : (
-            <Button variant="link" onClick={() => setIsDrawing(true)} p="0">Add bounding box filter</Button>
-          )}
+          <ArrayInput
+            label="Item IDs"
+            onChange={setIds}
+            helper="Enter a comma-separated list of item IDs you want to match."
+          />
+          <SelectInput label="Collection" onChange={handleSelectCollection}>
+            <option value="" />
+            { collections?.collections.map(({ id }: StacCollection) => (
+              <option key={id} value={id}>{ id }</option>
+            ))}
+          </SelectInput>
+          <DateRangeInput
+            label="Date range"
+            dateRangeFrom={dateRangeFromValue}
+            setDateRangeFrom={handleDateRangeFrom}
+            dateRangeTo={dateRangeToValue}
+            setDateRangeTo={handleDateRangeTo}
+            error={rangeError ? { message: "The to-date must be later than the from-date." } : undefined}
+          />
         </Box>
-        <Box>
-          <Map ref={mapRef}>
-            <Source
-              id="background"
-              type="raster"
-              tiles={["https://tile.openstreetmap.org/{z}/{x}/{y}.png"]}
-              tileSize={256}
-              attribution="Background tiles: © <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap contributors</a>"
-            >
-              <Layer id="background-tiles" type="raster" />
-            </Source>
-            <DrawBboxControl map={mapRef.current} isEnabled={isDrawing} handleDrawComplete={handleDrawComplete} bbox={bbox} />
-          </Map>
+        <Box display="grid" gridTemplateRows="max-content 1fr" gap="2">
+          <Box>
+            { isDrawing ? (
+              <Text p="0" m="0">Click on the map and drag to draw selected area.</Text>
+            ) : (
+              <Button variant="link" onClick={() => setIsDrawing(true)} p="0">Add bounding box filter</Button>
+            )}
+          </Box>
+          <Box>
+            <Map ref={mapRef}>
+              <Source
+                id="background"
+                type="raster"
+                tiles={["https://tile.openstreetmap.org/{z}/{x}/{y}.png"]}
+                tileSize={256}
+                attribution="Background tiles: © <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap contributors</a>"
+              >
+                <Layer id="background-tiles" type="raster" />
+              </Source>
+              <DrawBboxControl map={mapRef.current} isEnabled={isDrawing} handleDrawComplete={handleDrawComplete} bbox={bbox} />
+            </Map>
+          </Box>
         </Box>
-      </Box>
-      <Box gridColumn="1/3" justifySelf="end">
-        <Button type="submit" size="sm">Apply filter</Button>
+        <Box gridColumn="1/3" justifySelf="end">
+          <Button type="submit" size="sm">Apply filter</Button>
+        </Box>
       </Box>
     </Box>
   );
