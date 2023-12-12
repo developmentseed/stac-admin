@@ -60,7 +60,7 @@ This bundles the app in production mode, optimizing the build for performance. T
 Contributions are welcome. Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct, and the process for submitting pull requests to us.
 
 ## License
-This project is licensed under the [Your License] - see the LICENSE.md file for details.
+This project is licensed under the MIT license - see the LICENSE.md file for details.
 
 ## Learn More
 - For more information on React, visit the [React documentation](https://reactjs.org/).
