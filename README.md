@@ -1,4 +1,3 @@
-
 # STAC-Admin :satellite: :page_facing_up: 
 
 ## Introduction
@@ -21,6 +20,8 @@ Install Yarn packages:
 Before running the application, create a `.env.local` file with the required environment variable:
 - `REACT_APP_STAC_API`: Set this to the API endpoint of your STAC server.
 
+:warning: The current implementation of stac-admin works against the APIs provided by stac-fastapi's Transaction Extension. Make sure the extension is enabled and the server accepts PUT requests.
+
 For example, you can use the local deployment of [`eoAPI`](https://github.com/developmentseed/eoAPI) with `docker-compose` to get up and running in minutes:
 ```
 cd eoAPI
@@ -32,7 +33,7 @@ In your `.env.local` file:
 REACT_APP_STAC_API=http://localhost:8081
 ```
 
-:bulb: *See the eoAPI directly for it's getting started instruction and getting some sample data ingested.*
+:bulb: *See the eoAPI directly for its getting started instruction and getting some sample data ingested.*
 
 
 ### Running the Application
@@ -64,4 +65,4 @@ This project is licensed under the MIT license - see the LICENSE.md file for det
 
 ## Learn More
 - For more information on React, visit the [React documentation](https://reactjs.org/).
-- To learn more about Create React App, check out the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+- Check out the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started) to learn more about Create React App.
