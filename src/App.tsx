@@ -18,6 +18,7 @@ import ItemList from "./pages/ItemList";
 import ItemDetail from "./pages/ItemDetail";
 import ItemForm from "./pages/ItemForm";
 import NotFound from "./pages/NotFound";
+import CollectionDetail from "./pages/CollectionDetail";
 
 export const App = () => (
   <ChakraProvider theme={theme}>
@@ -39,7 +40,8 @@ export const App = () => (
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/collections/" element={<CollectionList />} />
-              <Route path="/collections/:collectionId/" element={<CollectionForm />} />
+              <Route path="/collections/:collectionId/" element={<CollectionDetail />} />
+              <Route path="/collections/:collectionId/edit/" element={<CollectionForm />} />
               <Route path="/items/" element={<ItemList />} />
               <Route path="/collections/:collectionId/items/:itemId/" element={<ItemDetail />} />
               <Route path="/collections/:collectionId/items/:itemId/edit/" element={<ItemForm />} />

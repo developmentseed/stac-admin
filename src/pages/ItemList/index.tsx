@@ -90,7 +90,7 @@ function ItemList() {
         </Button>
       </Box>
       <ItemListFilter submit={handleSubmit} {...disclosureProps} {...searchState} />
-      <Box display="flex" gap="4">  
+      <Box display="flex" gap="4">
         <TableView
           results={results}
           compact={showMap}

@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { TableContainer, Table, Text, Thead, Tr, Th, Td, Tbody } from "@chakra-ui/react";
 import { useCollections } from "@developmentseed/stac-react";
 import type { StacCollection } from "stac-ts";
@@ -7,6 +7,7 @@ import { usePageTitle } from "../hooks";
 
 function CollectionList() {
   usePageTitle("Collections");
+  const navigate = useNavigate();
   const { collections, state } = useCollections();
 
   return (
@@ -29,10 +30,16 @@ function CollectionList() {
               </Tr>
             ) : (
               collections.collections.map(({ id }: StacCollection) => (
-                <Tr key={id}>
+                <Tr
+                  key={id}
+                  onClick={() => navigate(`/collections/${id}/`)}
+                  _hover={{ cursor: "pointer", bgColor: "gray.50" }}
+                >
                   <Td>{id}</Td>
                   <Td fontSize="sm">
-                    <Link to={`/collections/${id}`}>Edit</Link>
+                    <Link to={`/collections/${id}/`} aria-label={`View collection ${id}`}>View</Link>
+                    {" "}|{" "}
+                    <Link to={`/collections/${id}/edit/`} aria-label={`Edit collection ${id}`}>Edit</Link>
                   </Td>
                 </Tr>
               ))
