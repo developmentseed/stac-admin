@@ -36,24 +36,21 @@ function ItemResults({
   submit
 }: ItemResultsProps) {
   // Map view state
-  // const [ showMap, setShowMap ] = useState<boolean>(false);
   const { getDisclosureProps, getButtonProps, isOpen } = useDisclosure();
   const [ highlightItem, setHighlightItem ] = useState<string>();
 
+  // Sort handlers and effects
   const previousSortby = usePrevious(sortby);
   const previousLimit = usePrevious(limit);
+  const sort = sortby?.length ? sortby[0] : undefined;
+  const handleSort = (sort: Sort) => setSortby([ sort ]);
 
-  // Submit handlers and effects
   useEffect(() => {
     // Automatically execute a new item search if the sorting or limit have changed
     if (sortby !== previousSortby || limit !== previousLimit) {
       submit();
     }
   }, [sortby, previousSortby, submit, limit, previousLimit]);
-
-  // Sorting state and handler
-  const sort = sortby?.length ? sortby[0] : undefined;
-  const handleSort = (sort: Sort) => setSortby([ sort ]);
 
   return (
     <>
