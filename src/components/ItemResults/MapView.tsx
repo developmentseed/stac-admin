@@ -3,6 +3,7 @@ import { Box } from "@chakra-ui/react";
 import Map, {  type MapRef, type MapLayerMouseEvent, Source, Layer } from "react-map-gl/maplibre";
 import { StacItem } from "stac-ts";
 import getBbox from "@turf/bbox";
+import { BackgroundTiles } from "../Map";
 
 type MapViewProps = {
   results?: {
@@ -96,15 +97,7 @@ function MapView({ id, hidden, results, highlightItem, setHighlightItem }: MapVi
         onMouseLeave={() => setHighlightItem()}
         interactiveLayerIds={["results-fill"]}
       >
-        <Source
-          id="background"
-          type="raster"
-          tiles={["https://tile.openstreetmap.org/{z}/{x}/{y}.png"]}
-          tileSize={256}
-          attribution="Background tiles: © <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap contributors</a>"
-        >
-          <Layer id="background-tiles" type="raster" />
-        </Source>
+        <BackgroundTiles />
         { results && (
           <Source
             id="results"

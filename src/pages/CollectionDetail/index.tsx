@@ -9,6 +9,7 @@ import { HeadingLead, Loading } from "../../components";
 import { usePageTitle } from "../../hooks";
 import { StacCollection } from "stac-ts";
 import ItemResults from "../../components/ItemResults";
+import { BackgroundTiles } from "../../components/Map";
 
 const extentOutline = {
   "line-color": "#276749",
@@ -95,15 +96,7 @@ function CollectionDetail() {
           <Button as={Link} to="edit/" size="sm" mt="4">Edit</Button>
         </Box>
         <Map ref={setMapRef} dragPan={false} scrollZoom={false} cursor="default">
-          <Source
-            id="background"
-            type="raster"
-            tiles={["https://tile.openstreetmap.org/{z}/{x}/{y}.png"]}
-            tileSize={256}
-            attribution="Background tiles: © <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap contributors</a>"
-          >
-            <Layer id="background-tiles" type="raster" />
-          </Source>
+          <BackgroundTiles />
           { extent && (
             <Source
               id="extent"
