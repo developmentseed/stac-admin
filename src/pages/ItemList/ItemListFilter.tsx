@@ -10,9 +10,11 @@ import { ArrayInput, DateRangeInput, SelectInput } from "../../components/forms"
 import DrawBboxControl from "./DrawBboxControl";
 
 type ItemListFilterProps = {
+  ids?: string[]
   setIds: (ids: string[]) => void
   bbox?: number[];
   setBbox: (bbox: number[]) => void;
+  collections?: string[];
   setCollections: (collections?: string[]) => void;
   dateRangeFrom?: string;
   setDateRangeFrom: (date: string) => void;
@@ -22,9 +24,11 @@ type ItemListFilterProps = {
 }
 
 function ItemListFilter({
+  ids,
   setIds,
   bbox,
   setBbox,
+  collections: selectedCollections,
   setCollections,
   dateRangeFrom,
   setDateRangeFrom,
@@ -38,6 +42,7 @@ function ItemListFilter({
   const { isOpen, onClose, getDisclosureProps, getButtonProps } = useDisclosure();
   const buttonProps = getButtonProps();
   const disclosureProps = getDisclosureProps();
+  const [ buttonLabel, setButtonLabel ] = useState("Filter items");
 
   const handleSelectCollection: React.ChangeEventHandler<HTMLSelectElement> = (event) => {
     setCollections(event.target.value ? [ event.target.value ] : undefined);
@@ -47,6 +52,15 @@ function ItemListFilter({
     e.preventDefault();
     submit();
     onClose();
+
+    const numberOfFilters = [
+      ids?.length,
+      selectedCollections?.length,
+      bbox,
+      dateRangeFrom || dateRangeTo
+    ].filter(x => !!x).length;
+    
+    setButtonLabel(numberOfFilters > 0 ? `${numberOfFilters} filter${numberOfFilters > 1 ? "s" : ""} applied` : "Filter items");
   };
 
   // Date range state and handlers
@@ -81,7 +95,7 @@ function ItemListFilter({
         alignItems="center"
       >
         <Icon as={isOpen ? MdExpandMore : MdChevronRight} boxSize="4" />
-        <span>Filter items</span>
+        <span>{ buttonLabel }</span>
       </Button>
       <Box
         as="form"
