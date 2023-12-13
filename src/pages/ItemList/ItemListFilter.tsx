@@ -1,6 +1,6 @@
 import { useState, useRef, useCallback } from "react";
-import { Box, Button, Icon, Text, useDisclosure } from "@chakra-ui/react";
-import { MdChevronRight, MdExpandMore } from "react-icons/md";
+import { Box, Button, Icon, IconButton, Text, useDisclosure } from "@chakra-ui/react";
+import { MdChevronRight, MdDelete, MdExpandMore } from "react-icons/md";
 import { useCollections } from "@developmentseed/stac-react";
 import Map, { type MapRef, Source, Layer } from "react-map-gl/maplibre";
 import { StacCollection } from "stac-ts";
@@ -13,7 +13,7 @@ type ItemListFilterProps = {
   ids?: string[]
   setIds: (ids: string[]) => void
   bbox?: number[];
-  setBbox: (bbox: number[]) => void;
+  setBbox: (bbox?: number[]) => void;
   collections?: string[];
   setCollections: (collections?: string[]) => void;
   dateRangeFrom?: string;
@@ -128,11 +128,14 @@ function ItemListFilter({
           />
         </Box>
         <Box display="grid" gridTemplateRows="max-content 1fr" gap="2">
-          <Box>
+          <Box display="flex">
             { isDrawing ? (
               <Text p="0" m="0">Click on the map and drag to draw selected area.</Text>
             ) : (
-              <Button variant="link" onClick={() => setIsDrawing(true)} p="0">Add bounding box filter</Button>
+              <>
+                <Button variant="link" onClick={() => setIsDrawing(true)} p="0">{bbox ? "Replace" : "Add"} bounding box filter</Button>
+                { bbox && <IconButton variant="link" aria-label="Clear bounding box" icon={<MdDelete />} onClick={() => setBbox()} />}
+              </>
             )}
           </Box>
           <Box>
