@@ -193,7 +193,7 @@ type CheckboxFieldProps = InputProps & {
 }
 
 export const CheckboxField = React.forwardRef<HTMLInputElement, CheckboxFieldProps>(
-  ({ name, options, value, onChange }: CheckboxFieldProps) => {
+  ({ name, options, value, onChange }: CheckboxFieldProps, ref) => { // eslint-disable-line @typescript-eslint/no-unused-vars
     const handleChange = (v: Array<(string | number)>) => {
       onChange(v);
     };
