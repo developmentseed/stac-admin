@@ -7,6 +7,8 @@ import {
   Th,
   Td,
   Tbody,
+  Alert,
+  AlertIcon,
 } from "@chakra-ui/react";
 import { StacItem } from "stac-ts";
 
@@ -49,13 +51,24 @@ function TableView({
           </Tr>
         </Thead>
         <Tbody>
-          { !results || state === "LOADING" ? (
+          { (!results || state === "LOADING") && (
             <Tr>
               <Td colSpan={3}>
                 <Loading>Loading items...</Loading>
               </Td>
             </Tr>
-          ) : (
+          )}
+          { results && results.features.length === 0 && (
+            <Tr>
+              <Td colSpan={3}>
+                <Alert status="warning" borderRadius="5px">
+                  <AlertIcon />
+                  No items are matching your query
+                </Alert>
+              </Td>
+            </Tr>
+          )}
+          { results && results.features.length > 1 && (
             results.features.map(({ id, collection }: StacItem) => (
               <Tr
                 key={id}
