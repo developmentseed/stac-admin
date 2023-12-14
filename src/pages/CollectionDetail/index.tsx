@@ -3,6 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import { Box, Button, Heading, ListItem, Text, List, Tag } from "@chakra-ui/react";
 import { useCollection, useStacSearch } from "@developmentseed/stac-react";
 import Map, { Layer, Source, MapRef } from "react-map-gl/maplibre";
+import { LngLatBounds } from "maplibre-gl";
 import bboxPolygon from "@turf/bbox-polygon";
 
 import { HeadingLead, Loading } from "../../components";
@@ -65,7 +66,11 @@ function CollectionDetail() {
   useEffect(() => {
     map?.once("load", () => {
       if(collection) {
-        const [x1, y1, x2, y2] = collection.extent.spatial.bbox[0];
+        const bounds = new LngLatBounds(collection.extent.spatial.bbox[0]);
+        for(let i = 1, len = collection.extent.spatial.bbox.length; i < len; i++) {
+          bounds.extend(collection.extent.spatial.bbox[i]);
+        }
+        const [x1, y1, x2, y2] = bounds.toArray().flat();
         map.fitBounds([x1, y1, x2, y2], { padding: {top: 30, bottom: 30, left: 750, right: 30 }, duration: 10 });
       }
     });
