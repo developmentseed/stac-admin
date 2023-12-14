@@ -28,6 +28,16 @@ export default extendTheme({
         fontSize: "2xl",
         my: "4"
       },
+      h3: {
+        fontWeight: "bold",
+        fontSize: "xl",
+        my: "4"
+      },
+      h4: {
+        fontWeight: "bold",
+        fontSize: "l",
+        my: "4"
+      },
       p: {
         my: "4"
       },

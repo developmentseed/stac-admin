@@ -10,11 +10,18 @@ export type ApiError = {
 
 export type LoadingState = "IDLE" | "LOADING";
 
+export type PropertyItem = {
+  label: string;
+  sortable: boolean;
+  order: 1;
+}
+
 export type Property = {
   formatted: string;
-  itemOrder: unknown[]
-  items?: unknown
+  itemOrder: string[]
+  items?: {[key: string]: PropertyItem}
   label: string;
+  value: GenericObject[];
 }
 
 export type PropertyGroup = {

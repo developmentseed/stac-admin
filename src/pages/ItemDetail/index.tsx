@@ -11,6 +11,7 @@ import { HeadingLead, Loading } from "../../components";
 import PropertyList from "./PropertyList";
 import { PropertyGroup } from "../../types";
 import { BackgroundTiles } from "../../components/Map";
+import AssetList from "./AssetList";
 
 const resultsOutline = {
   "line-color": "#C53030",
@@ -53,7 +54,7 @@ function ItemDetail() {
 
   return (
     <>
-      <Box height="250px" mx="-5" mb="4" position="relative">
+      <Box height="250px" mx="-5" position="relative">
         <Box position="absolute" top="0" left="5" zIndex="1000">
           <Heading as="h1">
             <HeadingLead>Item</HeadingLead> {item.id}
@@ -74,8 +75,13 @@ function ItemDetail() {
           </Source>
         </Map>
       </Box>
-      <Box style={{ columns: 2 }}>
-        { formattedProperties.map((property: PropertyGroup) => <PropertyList key={property.extension || "default-props"} properties={property} /> )}
+      <Box display="grid" gridTemplateColumns="1fr 1fr" gap="4">
+        <Box>
+          { formattedProperties.map((property: PropertyGroup) => <PropertyList key={property.extension || "default-props"} properties={property} /> )}
+        </Box>
+        <Box>
+          <AssetList assets={item.assets} />
+        </Box>
       </Box>
     </>
   );
