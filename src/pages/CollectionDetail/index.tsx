@@ -91,7 +91,7 @@ function CollectionDetail() {
           </Heading>
           { title && <Text fontWeight="bold" my="0">{ title }</Text>}
           { description && <Text my="0">{ description }</Text>}
-          { keywords && (
+          { (keywords && keywords.length > 0) && (
             <List mt="1">
               {keywords.map((keyword) => (
                 <Tag mr="1" as={ListItem} key={keyword}>{keyword}</Tag>
