@@ -114,7 +114,7 @@ export const ArrayField = React.forwardRef<HTMLInputElement, ArrayFieldProps>(
       setVal(value);
 
       if (value.length === 0) {
-        onChange();
+        onChange([]);
       } else {
         onChange(event.target.value?.split(",").map(val => val.trim()));
       }
