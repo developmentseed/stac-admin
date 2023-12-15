@@ -13,8 +13,8 @@ const IGNORE_PROPS = ["proj:bbox", "proj:geometry"];
 function PropertyList({ properties, headerLevel = "h2" }: PropertyListProps) {
   const { label, properties: props } = properties;
   return (
-    <Box mb="4">
-      <Text as={headerLevel}>{label || "Common Metadata"}</Text>
+    <Box borderTop="1px dashed" borderColor="gray.200" mt="4" pt="4" pb="3">
+      <Text as={headerLevel} fontSize="sm" mt="0">{label || "Common Metadata"}</Text>
       {Object.entries(props)
         .filter(([ key ]: PropType) => !IGNORE_PROPS.includes(key))
         .map(([ key, val ]: PropType, index: number) => (

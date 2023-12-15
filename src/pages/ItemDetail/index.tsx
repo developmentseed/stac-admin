@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { Box, Button, Heading, Text } from "@chakra-ui/react";
+import { Box, Heading, Icon, Text } from "@chakra-ui/react";
+import { MdEdit } from "react-icons/md";
 import Map, { Source, Layer, MapRef } from "react-map-gl/maplibre";
 import StacFields from "@radiantearth/stac-fields";
 import { useItem } from "@developmentseed/stac-react";
@@ -40,7 +41,7 @@ function ItemDetail() {
       // For some reason this is need to set the bounds after the initial load
       if(bounds) {
         const [x1, y1, x2, y2] = bounds;
-        map.fitBounds([x1, y1, x2, y2], { padding: {top: 30, bottom: 30, left: 750, right: 30 }, duration: 10 });
+        map.fitBounds([x1, y1, x2, y2], { padding: 30, duration: 10 });
       }
     });
   }, [item, map]);
@@ -54,33 +55,38 @@ function ItemDetail() {
 
   return (
     <>
-      <Box height="250px" mx="-5" position="relative">
-        <Box position="absolute" top="0" left="5" zIndex="1000">
-          <Heading as="h1">
-            <HeadingLead>Item</HeadingLead> {item.id}
-          </Heading>
-          { title && <Text fontWeight="bold" my="0">{ title }</Text>}
-          { description && <Text mt="0" mb="2">{ description }</Text>}
-          <Button as={Link} to="edit/" size="sm">Edit</Button>
-        </Box>
-        <Map ref={setMapRef} dragPan={false} scrollZoom={false} cursor="default">
-          <BackgroundTiles />
-          <Source
-            id="results"
-            type="geojson"
-            data={item}
-          >
-            <Layer id="results-line" type="line" paint={resultsOutline} />
-            <Layer id="results-fill" type="fill" paint={resultsFill} />
-          </Source>
-        </Map>
-      </Box>
-      <Box display="grid" gridTemplateColumns="1fr 1fr" gap="4">
+      <Heading as="h1">
+        <HeadingLead>Item</HeadingLead> {item.id}
+      </Heading>
+      <Box display="grid" gridTemplateColumns="2fr 1fr" gap="8">
         <Box>
-          { formattedProperties.map((property: PropertyGroup) => <PropertyList key={property.extension || "default-props"} properties={property} /> )}
-        </Box>
-        <Box>
+          <Box height="60" borderBottom="1px solid" borderColor="gray.200" pb="8">
+            <Map ref={setMapRef} dragPan={false} scrollZoom={false} cursor="default">
+              <BackgroundTiles />
+              <Source
+                id="results"
+                type="geojson"
+                data={item}
+              >
+                <Layer id="results-line" type="line" paint={resultsOutline} />
+                <Layer id="results-fill" type="fill" paint={resultsFill} />
+              </Source>
+            </Map>
+          </Box>
           <AssetList assets={item.assets} />
+        </Box>
+        <Box fontSize="sm" borderLeft="1px solid" borderColor="gray.100" pl="8">
+          <Box display="flex" gap="4" alignItems="baseline">
+            <Text as="h3" fontSize="md" my="0" flex="1">About</Text>
+            <Link to="edit/" title="Edit item"><Icon as={MdEdit} boxSize="4" /></Link>
+          </Box>
+          { (title || description) && (
+            <Text mt="0">
+              { title && <Text as="b">{ title } </Text> }
+              { description }
+            </Text>
+          )}
+          { formattedProperties.map((property: PropertyGroup) => <PropertyList key={property.extension || "default-props"} properties={property} /> )}
         </Box>
       </Box>
     </>

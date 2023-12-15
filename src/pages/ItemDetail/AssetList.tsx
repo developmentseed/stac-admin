@@ -74,7 +74,7 @@ type AssetListProps = {
 function AssetList({ assets }: AssetListProps) {
   return (
     <>
-      <Text as="h2">Assets</Text>
+      <Text as="h2" mt="4">Assets</Text>
       { Object.entries(assets).map(([ key, asset ]) => (
         <Box key={key} mb="4">
           <Asset asset={asset} assetKey={key} />
