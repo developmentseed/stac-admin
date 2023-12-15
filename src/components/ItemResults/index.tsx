@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Box, Button, Flex, Icon, Select, Text, useDisclosure } from "@chakra-ui/react";
-import { MdExpandLess, MdExpandMore } from "react-icons/md";
+import { MdExpandLess, MdExpandMore, MdChevronRight, MdChevronLeft } from "react-icons/md";
 import { StacItem } from "stac-ts";
 
 import MapView from "./MapView";
@@ -55,15 +55,47 @@ function ItemResults({
   return (
     <>
       <Box display="flex" gap="4">
-        <TableView
-          results={results}
-          compact={isOpen}
-          sort={sort}
-          handleSort={handleSort}
-          state={state}
-          highlightItem={highlightItem}
-          setHighlightItem={setHighlightItem}
-        />
+        <Box flex="1">
+          <TableView
+            results={results}
+            compact={isOpen}
+            sort={sort}
+            handleSort={handleSort}
+            state={state}
+            highlightItem={highlightItem}
+            setHighlightItem={setHighlightItem}
+          />
+          <Flex mt="4" display="flex" gap="2" fontSize="sm" alignItems="center">
+            <Flex flex="1" gap="2" alignItems="baseline">
+              <Select
+                value={limit}
+                onChange={(e) => setLimit(parseInt(e.target.value))}
+                w="20"
+                size="sm"
+                id="limit"
+              >
+                <option value="10">10</option>
+                <option value="25">25</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
+              </Select>
+              <Text as="label" htmlFor="limit">items per page</Text>
+            </Flex>
+            { previousPage && (
+              <Button variant="link" size="sm" onClick={previousPage}>
+                <Icon as={MdChevronLeft} boxSize="4" />
+                Previous page
+              </Button>
+            )}
+            { (previousPage && nextPage) && " | "}
+            { nextPage && (
+              <Button variant="link" size="sm" onClick={nextPage}>
+                Next page
+                <Icon as={MdChevronRight} boxSize="4" />
+              </Button>
+            ) }
+          </Flex>
+        </Box>
         <MapView {...getDisclosureProps()} results={results} highlightItem={highlightItem} setHighlightItem={setHighlightItem} />
         <Box>
           <Box flex="0" position="sticky" top="4" minWidth="8">
@@ -82,26 +114,6 @@ function ItemResults({
           </Box>
         </Box>
       </Box>
-      <Flex mt="4" display="flex" gap="2" fontSize="sm" alignItems="baseline">
-        <Flex flex="1" gap="2" alignItems="baseline">
-          <Select
-            value={limit}
-            onChange={(e) => setLimit(parseInt(e.target.value))}
-            w="20"
-            size="sm"
-            id="limit"
-          >
-            <option value="10">10</option>
-            <option value="25">25</option>
-            <option value="50">50</option>
-            <option value="100">100</option>
-          </Select>
-          <Text as="label" htmlFor="limit">items per page</Text>
-        </Flex>
-        { previousPage && <Button variant="link" size="sm" onClick={previousPage}>Previous page</Button>}
-        { (previousPage && nextPage) && " | "}
-        { nextPage && <Button variant="link" size="sm" onClick={nextPage}>Next page</Button> }
-      </Flex>
     </>
   );
 }
