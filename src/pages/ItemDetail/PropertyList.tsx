@@ -18,7 +18,7 @@ function PropertyList({ properties, headerLevel = "h2" }: PropertyListProps) {
       {Object.entries(props)
         .filter(([ key ]: PropType) => !IGNORE_PROPS.includes(key))
         .map(([ key, val ]: PropType, index: number) => (
-          val.items ? (
+          (val.itemOrder && val.itemOrder.length > 1) ? (
             <>
               <Text>{val.label}</Text>
               <TableContainer key={key}>
