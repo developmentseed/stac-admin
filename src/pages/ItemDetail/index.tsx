@@ -43,13 +43,10 @@ function ItemDetail() {
   useEffect(() => {
     const bounds = item && getBbox(item);
 
-    map?.once("load", () => {
-      // For some reason this is need to set the bounds after the initial load
-      if(bounds) {
-        const [x1, y1, x2, y2] = bounds;
-        map.fitBounds([x1, y1, x2, y2], { padding: 30, duration: 10 });
-      }
-    });
+    if (map && bounds) {
+      const [x1, y1, x2, y2] = bounds;
+      map.fitBounds([x1, y1, x2, y2], { padding: 30, duration: 10 });
+    }
   }, [item, map]);
 
   const previewAsset = useMemo(() => {
