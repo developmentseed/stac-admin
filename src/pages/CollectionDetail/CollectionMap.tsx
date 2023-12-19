@@ -46,18 +46,16 @@ function CollectionMap({ collection }: CollectionMapProps) {
 
   // Fit the map view around the current collection extent
   useEffect(() => {
-    map?.once("load", () => {
-      if(collection) {
-        let [x1, y1, x2, y2] = collection.extent.spatial.bbox[0];
-        const bounds = new LngLatBounds([x1, y1, x2, y2] );
-        for(let i = 1, len = collection.extent.spatial.bbox.length; i < len; i++) {
-          [x1, y1, x2, y2] = collection.extent.spatial.bbox[i];
-          bounds.extend([x1, y1, x2, y2] );
-        }
-        [x1, y1, x2, y2] = bounds.toArray().flat();
-        map.fitBounds([x1, y1, x2, y2], { padding: 30, duration: 10 });
+    if (collection && map) {
+      let [x1, y1, x2, y2] = collection.extent.spatial.bbox[0];
+      const bounds = new LngLatBounds([x1, y1, x2, y2]);
+      for(let i = 1, len = collection.extent.spatial.bbox.length; i < len; i++) {
+        [x1, y1, x2, y2] = collection.extent.spatial.bbox[i];
+        bounds.extend([x1, y1, x2, y2] );
       }
-    });
+      [x1, y1, x2, y2] = bounds.toArray().flat();
+      map.fitBounds([x1, y1, x2, y2], { padding: 30, duration: 10 });
+    }
   }, [collection, map]);
 
   return (
