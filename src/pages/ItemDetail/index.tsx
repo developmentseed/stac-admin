@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { Box, Heading, Icon, Text } from "@chakra-ui/react";
 import { MdEdit } from "react-icons/md";
@@ -13,16 +13,22 @@ import PropertyList from "./PropertyList";
 import { PropertyGroup } from "../../types";
 import { BackgroundTiles } from "../../components/Map";
 import AssetList from "./AssetList";
+import { StacAsset } from "stac-ts";
 
 const resultsOutline = {
   "line-color": "#C53030",
-  "line-width": 1,
+  "line-width": 2,
 };
 
 const resultsFill = {
   "fill-color": "#C53030",
   "fill-opacity": 0.1
 };
+
+const cogMediaTypes = [
+  "image/tiff; application=geotiff; profile=cloud-optimized",
+  "image/vnd.stac.geotiff",
+];
 
 function ItemDetail() {
   const { collectionId, itemId } = useParams();
@@ -46,6 +52,27 @@ function ItemDetail() {
     });
   }, [item, map]);
 
+  const previewAsset = useMemo(() => {
+    if (!item) return;
+
+    return Object.values(item.assets).reduce(
+      (preview, asset) => {
+        const { type, href, roles } = asset as StacAsset;
+        if (cogMediaTypes.includes(type || "")) {
+          if (!preview) {
+            return href;
+          } else {
+            if (roles && roles.includes("visual")) {
+              return href;
+            }
+          }
+        }
+        return preview;
+      },
+      undefined
+    );
+  }, [item]);
+
   if (!item || state === "LOADING") {
     return <Loading>Loading item...</Loading>;
   }
@@ -63,13 +90,24 @@ function ItemDetail() {
           <Box height="60" borderBottom="1px solid" borderColor="gray.200" pb="8">
             <Map ref={setMapRef} dragPan={false} scrollZoom={false} cursor="default">
               <BackgroundTiles />
+              { previewAsset && (
+                <Source
+                  id="preview"
+                  type="raster"
+                  tiles={[`http://tiles.rdnt.io/tiles/{z}/{x}/{y}@2x?url=${previewAsset}`]}
+                  tileSize={256}
+                  attribution="Background tiles: © <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap contributors</a>"
+                >
+                  <Layer id="preview-tiles" type="raster" />
+                </Source>
+              )}
               <Source
                 id="results"
                 type="geojson"
                 data={item}
               >
                 <Layer id="results-line" type="line" paint={resultsOutline} />
-                <Layer id="results-fill" type="fill" paint={resultsFill} />
+                { !previewAsset && <Layer id="results-fill" type="fill" paint={resultsFill} /> }
               </Source>
             </Map>
           </Box>
