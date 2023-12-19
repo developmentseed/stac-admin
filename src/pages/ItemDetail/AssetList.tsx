@@ -30,22 +30,22 @@ function Asset({ asset, assetKey }: AssetProps) {
       <Text as="h3" mb="1">{ title || assetKey }</Text>
       { description && <Text my="0">{ description }</Text>}
       <Text my="0" fontSize="sm">{ formattedProperties.type.formatted } | { formattedProperties.roles.formatted }</Text>
-      { alternate ? (
-        <Box mt="2" mb="4">
-          {Object.entries(alternate)
+      <Box mt="2" mb="4">
+        { alternate ? (
+          Object.entries(alternate)
             .map(([ key, val ]: [string, Alternate]) => (
               <Button as={Link} key={key} href={val.href} size="xs">
                 <Icon as={MdDownload} boxSize="4" mr="1" />
                 { val.title || val.href }
               </Button>
-            ))}
-        </Box>
-      ) : (
-        <Link as={Button} href={href}>
-          <Icon as={MdDownload} boxSize="4" mr="1" />
-          Download
-        </Link>
-      ) }
+            ))
+        ) : (
+          <Button as={Link} href={href} size="xs">
+            <Icon as={MdDownload} boxSize="4" mr="1" />
+            Download
+          </Button>
+        ) }
+      </Box>
       { formattedExtensions.length > 0 && (
         <>
           <Button
