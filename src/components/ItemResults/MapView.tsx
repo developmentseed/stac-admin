@@ -47,31 +47,17 @@ function MapView({ id, hidden, results, highlightItem, setHighlightItem }: MapVi
     };
   }, [results]);
 
-
-  // Fit the map view around the current results bbox
-  useEffect(() => {
-    const bounds = results?.features.length && getBbox(results);
-
-    map?.once("load", () => {
-      // For some reason this is need to set the bounds after the initial load
-      map.resize();
-      if(bounds) {
-        const [x1, y1, x2, y2] = bounds;
-        map.fitBounds([x1, y1, x2, y2], { padding: 30, duration: 10 });
-      }
-    });
-
-    if (map && bounds) {
-      const [x1, y1, x2, y2] = bounds;
-      map.fitBounds([x1, y1, x2, y2], { padding: 30 });
-    }
-  }, [map, results]);
-
   useEffect(() => {
     if (map && !hidden) {
       map.resize();
+
+      const bounds = results?.features.length && getBbox(results);
+      if (bounds) {
+        const [x1, y1, x2, y2] = bounds;
+        map.fitBounds([x1, y1, x2, y2], { padding: 30 });
+      }
     }
-  }, [hidden, map]);
+  }, [hidden, map, results]);
 
 
   const handleHover = useCallback((e: MapLayerMouseEvent) => {
