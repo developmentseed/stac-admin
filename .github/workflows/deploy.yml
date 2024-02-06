@@ -12,6 +12,11 @@ permissions:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        environment:
+          - stacadmin-eoapirisk-demo
+    environment: ${{ matrix.environment }}
 
     steps:
       - name: Setup Node.js
