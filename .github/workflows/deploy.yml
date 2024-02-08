@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - deploy-veda-demo
 
 permissions:
   id-token: write
@@ -16,6 +17,7 @@ jobs:
       matrix:
         environment:
           - stacadmin-eoapirisk-demo
+          - stacadmin-veda-demo
     environment: ${{ matrix.environment }}
 
     steps:
