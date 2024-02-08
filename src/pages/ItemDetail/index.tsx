@@ -45,7 +45,7 @@ function ItemDetail() {
 
     if (map && bounds) {
       const [x1, y1, x2, y2] = bounds;
-      map.fitBounds([x1, y1, x2, y2], { padding: 30, duration: 10 });
+      map.fitBounds([x1, y1, x2, y2], { padding: 30, duration: 0 });
     }
   }, [item, map]);
 

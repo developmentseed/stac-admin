@@ -54,7 +54,7 @@ function CollectionMap({ collection }: CollectionMapProps) {
         bounds.extend([x1, y1, x2, y2] );
       }
       [x1, y1, x2, y2] = bounds.toArray().flat();
-      map.fitBounds([x1, y1, x2, y2], { padding: 30, duration: 10 });
+      map.fitBounds([x1, y1, x2, y2], { padding: 30, duration: 0 });
     }
   }, [collection, map]);
 
