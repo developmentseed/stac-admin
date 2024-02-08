@@ -20,9 +20,9 @@ function PropertyList({ properties, headerLevel = "h2" }: PropertyListProps) {
         .filter(([ key ]: PropType) => !IGNORE_PROPS.includes(key))
         .map(([ key, val ]: PropType, index: number) => (
           (val.itemOrder && val.itemOrder.length > 1) ? (
-            <>
+            <Box key={key}>
               <Text>{val.label}</Text>
-              <TableContainer key={key}>
+              <TableContainer>
                 <Table size="sm">
                   <Thead>
                     <Tr>
@@ -34,7 +34,7 @@ function PropertyList({ properties, headerLevel = "h2" }: PropertyListProps) {
                   </Thead>
                   <Tbody>
                     { val.value.map((value) => (
-                      <Tr key={value.name}>
+                      <Tr key={JSON.stringify(value)}>
                         {val.itemOrder.map((item) => (
                           <Td key={item} valign="top">
                             <TableValue value={value[item]} />
@@ -45,7 +45,7 @@ function PropertyList({ properties, headerLevel = "h2" }: PropertyListProps) {
                   </Tbody>
                 </Table>
               </TableContainer>
-            </>
+            </Box>
           ) : (
             <Box
               key={key}

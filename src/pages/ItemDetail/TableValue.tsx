@@ -8,7 +8,8 @@ function TableValue({ value }: TableValueProps) {
   if (Array.isArray(value)) {
     return (
       <UnorderedList my="0">
-        {value.map(v => <ListItem key={v}>{v}</ListItem>)}
+        {/* eslint-disable-next-line react/no-array-index-key */}
+        {value.map((v, i) => <ListItem key={`${i}-${v}`}>{v}</ListItem>)}
       </UnorderedList>
     );
   }
