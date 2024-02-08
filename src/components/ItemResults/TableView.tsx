@@ -68,7 +68,7 @@ function TableView({
               </Td>
             </Tr>
           )}
-          { results && results.features.length > 1 && (
+          { results && results.features.length > 0 && (
             results.features.map(({ id, collection }: StacItem) => (
               <Tr
                 key={id}
