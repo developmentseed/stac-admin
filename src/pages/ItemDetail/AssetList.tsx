@@ -4,6 +4,7 @@ import { StacAsset } from "stac-ts";
 import StacFields from "@radiantearth/stac-fields";
 import { PropertyGroup } from "../../types";
 import PropertyList from "./PropertyList";
+import Roles from "./Roles";
 
 type AssetProps = {
   assetKey: string;
@@ -29,7 +30,7 @@ function Asset({ asset, assetKey }: AssetProps) {
     <Box borderBottom="1px dashed" borderColor="gray.300" pb="4">
       <Text as="h3" mb="1">{ title || assetKey }</Text>
       { description && <Text my="0">{ description }</Text>}
-      <Text my="0" fontSize="sm">{ formattedProperties.type.formatted } | { formattedProperties.roles.formatted }</Text>
+      <Text my="0" fontSize="sm">{ formattedProperties.type.formatted } | <Roles roles={formattedProperties.roles} /></Text>
       <Box mt="2" mb="4">
         { alternate ? (
           Object.entries(alternate)
