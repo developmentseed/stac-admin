@@ -1,5 +1,6 @@
 import { As, Box, Table, TableContainer, Tbody, Td, Text, Th, Thead, Tr } from "@chakra-ui/react";
 import { Property, PropertyGroup } from "../../types";
+import TableValue from "./TableValue";
 
 type PropertyListProps = {
   properties: PropertyGroup;
@@ -35,7 +36,9 @@ function PropertyList({ properties, headerLevel = "h2" }: PropertyListProps) {
                     { val.value.map((value) => (
                       <Tr key={value.name}>
                         {val.itemOrder.map((item) => (
-                          <Td key={item}>{value[item]}</Td>
+                          <Td key={item} valign="top">
+                            <TableValue value={value[item]} />
+                          </Td>
                         ))}
                       </Tr>
                     )) }

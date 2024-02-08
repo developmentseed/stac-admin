@@ -82,7 +82,7 @@ function ItemDetail() {
       <Heading as="h1">
         <HeadingLead>Item</HeadingLead> {item.id}
       </Heading>
-      <Box display="grid" gridTemplateColumns="2fr 1fr" gap="8">
+      <Box display="grid" gridTemplateColumns="minmax(0, 2fr) 1fr" gap="8">
         <Box>
           <Box height="60" borderBottom="1px solid" borderColor="gray.200" pb="8">
             <Map ref={setMapRef} dragPan={false} scrollZoom={false} cursor="default">
