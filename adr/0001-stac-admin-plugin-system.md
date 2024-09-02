@@ -12,8 +12,8 @@ The form to edit the STAC metadata may differ from instance to instance and from
 ## Decision Drivers
 
 The chosen option should allow:
-- Each instance to define what fields the form editor should have;
-- Within an instance, each collection/item to define what fields the form editor should have based on some sort of, possibly dynamic, criteria;
+- Each instance controls what fields are available in the editor.
+- Through instance-specific plugins, instances can define additional custom fields if required.
 
 ## Decision
 
@@ -21,6 +21,8 @@ The structure of the form is defined by a plugin system. Each plugin is responsi
 This allows for a more modular approach to the editor. Each instance can use a different set of plugins to define the editor's structure. These can be custom plugins that the implementers of a given instance develop or pre-made plugins from the community.
 
 Drawing inspiration from the JSON schema spec, each plugin defines a schema to create the editor. For each field type there is a corresponding default widget to render it, but plugins can define their own widgets (in the form of a React component) to be used by the fields.
+
+We will provide and maintain plugins to that support editing meta data specified by a variety of commonly used STAC extensions.
 
 ### Consequences
 
