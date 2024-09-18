@@ -1,11 +1,13 @@
 # STAC admin plugin system
 
-    Status: IN REVIEW
+    Status: ACCEPTED
     Deciders: @danielfdsilva @emmanuelmathot @j08lue @oliverroick
     Date: 2024-08-26
 
 
 ## Context and Problem Statement
+
+We need to expand the current scope of STAC Admin to support editing more STAC metadata, including properties provided by various [STAC extensions](https://stac-extensions.github.io/). The goal with this ADR is to enable the STAC Admin interface to follow the flexibility of STAC.
 
 The form to edit the STAC metadata may differ from instance to instance and from collection to collection. Ideally the form should be easily customizable and extensible to suit the different needs.
 
@@ -36,4 +38,4 @@ Nevertheless, this can be mitigated, by having the plugin query the STAC spec on
 
 ## More Information
 
-The initial proposal pro the plugin system was outlined in the [Flexible plugin system for the STAC metadata editor](https://github.com/EOEPCA/data-access/issues/73) issue.
+The initial proposal for the plugin system was outlined in the [Flexible plugin system for the STAC metadata editor](https://github.com/EOEPCA/data-access/issues/73) issue.
